@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "Vec2.h"
 
 namespace bs {

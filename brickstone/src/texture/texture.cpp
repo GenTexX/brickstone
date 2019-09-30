@@ -1,4 +1,5 @@
-#include "Texture.h"
+#include <bspch.h>
+#include "texture.h"
 
 bs::Texture::Texture(const std::string & path) : path(path) {
 

@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "maths.h"
 #include "maths_func.h"
 #include <math.h>
@@ -74,30 +75,30 @@ namespace bs {
 
 	}
 
-	mat4 mat4::orthographic(float left, float right, float bottom, float top, float near, float far) {
+	mat4 mat4::orthographic(float left, float right, float bottom, float top, float n, float f) {
 
 		/*generate orthigraphic matrix*/
 		mat4 result(1.0f);
 
 		result.elements[0 + 0 * 4] = ((2.0f) / (right - left));
 		result.elements[1 + 1 * 4] = ((2.0f) / (top - bottom));
-		result.elements[2 + 2 * 4] = (2.0f) / (near - far);
+		result.elements[2 + 2 * 4] = (2.0f) / (n - f);
 		result.elements[0 + 3 * 4] = ((right + left)) / (left - right);
 		result.elements[1 + 3 * 4] = ((top + bottom)) / (bottom - top);
-		result.elements[2 + 3 * 4] = ((far + near)) / (far - near);
+		result.elements[2 + 3 * 4] = ((f + n)) / (f - n);
 
 		return result;
 	} 
 
-	mat4 mat4::perspective(float fov, float aspect, float near, float far) {
+	mat4 mat4::perspective(float fov, float aspect, float n, float f) {
 		
 		/*generate perspective matrix*/
 		mat4 result(0.0f);
 
 		float q = 1.0f / tan(toRad(0.5f * fov));
 		float a = q / aspect;
-		float b = (near + far) / (near - far);
-		float c = (2.0f * near * far) / (near - far);
+		float b = (n + f) / (n - f);
+		float c = (2.0f * n * f) / (n - f);
 
 		result.elements[0 + 0 * 4] = a;
 		result.elements[1 + 1 * 4] = q;

@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "Renderer.h"
 
 namespace bs {

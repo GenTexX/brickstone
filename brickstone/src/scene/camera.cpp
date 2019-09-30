@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "Camera.h"
 
 namespace bs {

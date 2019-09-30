@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "VertexBuffer.h"
 
 namespace bs {

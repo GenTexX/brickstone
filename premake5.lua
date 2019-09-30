@@ -72,7 +72,8 @@ project "brickstone"
 		{
 			"BS_PLATFORM_WINDOWS",
 			"NOMINMAX",
-			"GLEW_STATIC"
+			"GLEW_STATIC",
+			"_CRT_SECURE_NO_WARNINGS"
 		}
 		
 	filter "configurations:Debug"

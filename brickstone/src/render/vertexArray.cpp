@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "VertexArray.h"
 
 bs::VertexArray::VertexArray() {

@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "StringFormating.h"
 
 std::vector<std::string> bs::split( const std::string& str, const char& separator)

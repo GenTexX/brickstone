@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "FileHandler.h"
 
 FileHandler::FileHandler() {

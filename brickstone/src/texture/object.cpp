@@ -1,3 +1,4 @@
+#include <bspch.h>
 #include "Object.h"
 
 bs::Object::Object() {
