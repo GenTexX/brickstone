@@ -101,8 +101,33 @@
     <ClInclude Include="src\brickstone.h" />
     <ClInclude Include="src\bspch.h" />
     <ClInclude Include="src\entrypoint\entrypoint.h" />
+    <ClInclude Include="src\file\fileHandler.h" />
+    <ClInclude Include="src\imgui\imconfig.h" />
+    <ClInclude Include="src\imgui\imgui.h" />
+    <ClInclude Include="src\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="src\imgui\imgui_impl_sdl.h" />
+    <ClInclude Include="src\imgui\imgui_internal.h" />
+    <ClInclude Include="src\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\logging\log.h" />
+    <ClInclude Include="src\math\mat4.h" />
+    <ClInclude Include="src\math\maths.h" />
+    <ClInclude Include="src\math\maths_func.h" />
+    <ClInclude Include="src\math\vec2.h" />
+    <ClInclude Include="src\math\vec3.h" />
+    <ClInclude Include="src\math\vec4.h" />
+    <ClInclude Include="src\render\indexBuffer.h" />
+    <ClInclude Include="src\render\renderer.h" />
+    <ClInclude Include="src\render\vertexArray.h" />
+    <ClInclude Include="src\render\vertexBuffer.h" />
     <ClInclude Include="src\sandbox\sandbox.h" />
+    <ClInclude Include="src\scene\camera.h" />
+    <ClInclude Include="src\shader\shader.h" />
+    <ClInclude Include="src\stb_image\stb_image.h" />
+    <ClInclude Include="src\string\stringFormating.h" />
+    <ClInclude Include="src\texture\object.h" />
+    <ClInclude Include="src\texture\texture.h" />
     <ClInclude Include="src\window\keycode.h" />
     <ClInclude Include="src\window\window.h" />
   </ItemGroup>
@@ -111,8 +136,29 @@
     <ClCompile Include="src\bspch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\file\fileHandler.cpp" />
+    <ClCompile Include="src\imgui\imgui.cpp" />
+    <ClCompile Include="src\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="src\imgui\imgui_impl_sdl.cpp" />
+    <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\mat4.cpp" />
+    <ClCompile Include="src\math\vec2.cpp" />
+    <ClCompile Include="src\math\vec3.cpp" />
+    <ClCompile Include="src\math\vec4.cpp" />
+    <ClCompile Include="src\render\indexBuffer.cpp" />
+    <ClCompile Include="src\render\renderer.cpp" />
+    <ClCompile Include="src\render\vertexArray.cpp" />
+    <ClCompile Include="src\render\vertexBuffer.cpp" />
     <ClCompile Include="src\sandbox\sandbox.cpp" />
+    <ClCompile Include="src\scene\camera.cpp" />
+    <ClCompile Include="src\shader\shader.cpp" />
+    <ClCompile Include="src\stb_image\stb_image.cpp" />
+    <ClCompile Include="src\string\stringFormating.cpp" />
+    <ClCompile Include="src\texture\object.cpp" />
+    <ClCompile Include="src\texture\texture.cpp" />
     <ClCompile Include="src\window\window.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
