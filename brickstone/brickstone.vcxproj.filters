@@ -217,4 +217,7 @@
       <Filter>window</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\shader\basic.shader" />
+  </ItemGroup>
 </Project>

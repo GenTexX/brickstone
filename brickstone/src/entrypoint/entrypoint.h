@@ -36,6 +36,7 @@ int main(int argc, char* args[]) {
 
 	app->run();
 
+	SDL_Quit();
 	delete app;
 	
 	return 0;

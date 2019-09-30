@@ -10,6 +10,7 @@
 #include <render/indexBuffer.h>
 #include <render/vertexBuffer.h>
 #include <render/vertexArray.h>
+#include <render/renderer.h>
 #include <scene/camera.h>
 #include <shader/shader.h>
 #include <string/stringFormating.h>

@@ -1,6 +1,4 @@
-#ifndef FILEHANDLER_H
-#define FILEHANDLER_H
-
+#pragma once
 #include <string>
 #include <vector>
 #include <sstream>
@@ -25,6 +23,3 @@ public:
 	void append(const std::string&);
 
 };
-
-#endif // !FILEHANDLER_H
-

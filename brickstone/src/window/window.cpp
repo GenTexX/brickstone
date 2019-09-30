@@ -546,4 +546,12 @@ namespace bs {
 
 
 
+	SDL_Window* Window::getWindow() {
+		return this->m_window;
+	}
+
+	SDL_GLContext& Window::getContext() {
+		return this->m_glContext;
+	}
+
 }

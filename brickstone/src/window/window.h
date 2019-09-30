@@ -94,6 +94,8 @@ namespace bs {
 		int getXpos();
 		int getYpos();
 		std::string getTitle();
+		SDL_Window* getWindow();
+		SDL_GLContext& getContext();
 
 		void setWidth(const int& w);
 		void setHeight(const int& h);

@@ -1,8 +1,14 @@
 #pragma once
-#include <iostream>
+
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_sdl.h"
+#include "imgui/imgui_impl_opengl3.h"
+#include <render/renderer.h>
 #include <application/application.h>
 #include <logging/log.h>
 #include <window/window.h>
+#include <texture/object.h>
+#include <scene/camera.h>
 
 
 class Sandbox : public bs::Application {
