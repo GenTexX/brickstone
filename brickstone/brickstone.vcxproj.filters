@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="application">
+      <UniqueIdentifier>{F9860F5B-653C-8850-EE30-82275AE57E54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="entrypoint">
+      <UniqueIdentifier>{81CBFE52-6D83-40A0-D68A-19FCC261DB90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="logging">
+      <UniqueIdentifier>{CC00C087-38E0-3E23-41F8-C9F9AD56A584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sandbox">
+      <UniqueIdentifier>{145A6C82-8039-EB1D-8951-76F4F5AF517F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="window">
+      <UniqueIdentifier>{5DFE1E25-49A0-49FB-325B-5D4F1E9CD04B}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\application\application.h">
+      <Filter>application</Filter>
+    </ClInclude>
+    <ClInclude Include="src\brickstone.h" />
+    <ClInclude Include="src\bspch.h" />
+    <ClInclude Include="src\entrypoint\entrypoint.h">
+      <Filter>entrypoint</Filter>
+    </ClInclude>
+    <ClInclude Include="src\logging\log.h">
+      <Filter>logging</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sandbox\sandbox.h">
+      <Filter>sandbox</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\keycode.h">
+      <Filter>window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\window\window.h">
+      <Filter>window</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\application\application.cpp">
+      <Filter>application</Filter>
+    </ClCompile>
+    <ClCompile Include="src\bspch.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sandbox\sandbox.cpp">
+      <Filter>sandbox</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window\window.cpp">
+      <Filter>window</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
