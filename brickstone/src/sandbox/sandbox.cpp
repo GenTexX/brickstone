@@ -36,8 +36,9 @@ void Sandbox::run() {
 	s.readSource("src/shader/basic.shader");
 	s.create();
 	s.bind();
-	s.setUniform3f("u_LightPosition", bs::vec3(10.0f, 7.5f, 7.5f));
+	s.setUniform3f("u_LightPosition", bs::vec3(1.0f, 0.5f, 0.0));
 	s.setUniform3f("u_LightColor", bs::vec3(1.0f, 1.0f, 1.0f));
+	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
 	s.setUniformMat4("u_View", view);
 	s.setUniform1i("u_Sampler", 0);
@@ -49,8 +50,8 @@ void Sandbox::run() {
 	bs::Camera cam;
 
 	cam.x = 0.0f;
-	cam.y = 5.0f;
-	cam.z = 12.5f;
+	cam.y = 0.0f;
+	cam.z = 0.0f;
 
 	float f = 0.0;
 	float angle = 0.0;
@@ -81,7 +82,7 @@ void Sandbox::run() {
 
 		bs::Renderer::clear();
 
-		rot = bs::mat4::translation(bs::vec3(0.0f, 5.0f, 5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
+		rot = bs::mat4::translation(bs::vec3(0.0f, 0.0f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
 		s.setUniformMat4("u_Model", rot);
 
 		angle += angle >= 360 ? f : (f-360);
