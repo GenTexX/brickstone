@@ -9,6 +9,7 @@
 #include <window/window.h>
 #include <texture/object.h>
 #include <scene/camera.h>
+#include <texture/material.h>
 
 
 class Sandbox : public bs::Application {

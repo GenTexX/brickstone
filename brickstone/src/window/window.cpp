@@ -18,6 +18,8 @@ namespace bs {
 		this->m_glContext = SDL_GL_CreateContext(this->m_window);
 		SDL_GL_MakeCurrent(this->m_window, this->m_glContext);
 
+		SDL_GL_SetSwapInterval(1);
+
 	}
 
 	Window::~Window() {

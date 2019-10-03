@@ -5,8 +5,9 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include "../file/FileHandler.h"
-#include "../math/maths.h"
+#include <file/FileHandler.h>
+#include <math/maths.h>
+#include <texture/material.h>
 
 namespace bs {
 
@@ -27,17 +28,21 @@ namespace bs {
 		std::string geometrySrc;
 		std::string fragmentSrc;
 
+		int compile();
+
 	public:
 
 		Shader();
 		~Shader();
 
 		void setUniform1i(const char* name, const int& val);
+		void setUniform1f(const char* name, const float& val);
+		void setUniform2f(const char* name, const bs::vec2& val);
 		void setUniform3f(const char* name, bs::vec3 val);
 		void setUniformMat4(const char* name, const bs::mat4& val);
+		void setUniformMaterial(const char* name, Material val);
 
 		int readSource(const std::string& filePath);
-		int compile();
 		int create();
 		void bind();
 

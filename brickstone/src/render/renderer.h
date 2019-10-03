@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../shader/Shader.h"
+#include <shader/shader.h>
+#include <texture/material.h>
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 

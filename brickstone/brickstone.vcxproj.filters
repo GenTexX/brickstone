@@ -140,6 +140,7 @@
     <ClInclude Include="src\window\window.h">
       <Filter>window</Filter>
     </ClInclude>
+    <ClInclude Include="src\texture\material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\application\application.cpp">
@@ -216,6 +217,7 @@
     <ClCompile Include="src\window\window.cpp">
       <Filter>window</Filter>
     </ClCompile>
+    <ClCompile Include="src\texture\material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\shader\basic.shader" />

@@ -112,6 +112,18 @@ namespace bs {
 	
 	}
 
+	void Shader::setUniform1f(const char* name, const float& val) {
+	
+		glUniform1f(glGetUniformLocation(this->program, name), val);
+	
+	}
+
+	void Shader::setUniform2f(const char* name, const bs::vec2& val) {
+	
+		glUniform2f(glGetUniformLocation(this->program, name), val.x, val.y);
+	
+	}
+
 	void Shader::setUniform3f(const char * name, bs::vec3 val) {
 		
 		glUniform3f(glGetUniformLocation(this->program, name), val.x, val.y, val.z);
@@ -123,6 +135,14 @@ namespace bs {
 
 		int location = glGetUniformLocation(this->program, name);
 		glUniformMatrix4fv(location, 1, GL_FALSE, val.elements);
+	
+	}
+
+	void Shader::setUniformMaterial(const char* name, Material val) {
+	
+		this->setUniform3f("u_Material.ambient", val.getAmbient());
+		this->setUniform3f("u_Material.diffuse", val.getDiffuse());
+		this->setUniform3f("u_Material.specular", val.getSpecular());
 	
 	}
 
@@ -179,6 +199,7 @@ namespace bs {
 		if (!this->fragmentSrc.empty()) this->fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
 
 
+		
 
 		/* compile shader */
 

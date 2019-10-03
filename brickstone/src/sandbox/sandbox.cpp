@@ -31,6 +31,8 @@ void Sandbox::run() {
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
 
+	bs::Material m(bs::vec3(0.0215f, 0.1745f, 0.0215f), bs::vec3(0.07568f, 0.61424f, 0.07568f), bs::vec3(0.633f, 0.727811f, 0.633f), 32);
+
 	/* set shader */
 	bs::Shader s;
 	s.readSource("src/shader/basic.shader");
@@ -42,6 +44,7 @@ void Sandbox::run() {
 	s.setUniformMat4("u_Projection", proj);
 	s.setUniformMat4("u_View", view);
 	s.setUniform1i("u_Sampler", 0);
+	s.setUniformMaterial("material", m);
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -65,10 +68,10 @@ void Sandbox::run() {
 		ImGui::NewFrame();
 
 		{
-			ImGui::Begin("FOV");                          // Create a window called "Hello, world!" and append into it.
+			ImGui::Begin("FOV");										            
 
 
-			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {            // Edit 1 float using a slider from 0.0f to 1.0f
+			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {           
 				proj = bs::mat4::perspective(fov, 16.0f / 9.0f, 0.01f, 100.0f);
 				s.setUniformMat4("u_Projection", proj);
 			}
