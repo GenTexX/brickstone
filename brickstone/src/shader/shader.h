@@ -8,6 +8,7 @@
 #include <file/FileHandler.h>
 #include <math/maths.h>
 #include <texture/material.h>
+#include <logging/log.h>
 
 namespace bs {
 
@@ -40,7 +41,7 @@ namespace bs {
 		void setUniform2f(const char* name, const bs::vec2& val);
 		void setUniform3f(const char* name, bs::vec3 val);
 		void setUniformMat4(const char* name, const bs::mat4& val);
-		void setUniformMaterial(const char* name, Material val);
+		void setUniformMaterial(Material& val);
 
 		int readSource(const std::string& filePath);
 		int create();

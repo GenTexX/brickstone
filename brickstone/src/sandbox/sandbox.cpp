@@ -31,7 +31,10 @@ void Sandbox::run() {
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
 
-	bs::Material m(bs::vec3(0.0215f, 0.1745f, 0.0215f), bs::vec3(0.07568f, 0.61424f, 0.07568f), bs::vec3(0.633f, 0.727811f, 0.633f), 32);
+	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.3f, 0.3f, 0.3f), 2);
+
+	m.loadDiffuseMap("src/res/bricks.png");
+
 
 	/* set shader */
 	bs::Shader s;
@@ -43,9 +46,8 @@ void Sandbox::run() {
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
 	s.setUniformMat4("u_View", view);
-	s.setUniform1i("u_Sampler", 0);
-	s.setUniformMaterial("material", m);
-
+	s.setUniformMaterial(m);
+	
 	glEnable(GL_DEPTH_TEST);
 
 	cube.vao.unmap();
@@ -56,7 +58,7 @@ void Sandbox::run() {
 	cam.y = 0.0f;
 	cam.z = 0.0f;
 
-	float f = 0.0;
+	float f = 0.7;
 	float angle = 0.0;
 	float fov = 70.0;
 
@@ -76,7 +78,7 @@ void Sandbox::run() {
 				s.setUniformMat4("u_Projection", proj);
 			}
 
-			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 3.0f);
+			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 3.0f, "%.1f");
 
 			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 			ImGui::End();

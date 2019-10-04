@@ -166,6 +166,10 @@
   <ItemGroup>
     <None Include="src\shader\basic.shader" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="src\res\bricks.png" />
+    <Image Include="src\res\wood.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

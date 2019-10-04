@@ -138,11 +138,16 @@ namespace bs {
 	
 	}
 
-	void Shader::setUniformMaterial(const char* name, Material val) {
+	void Shader::setUniformMaterial(Material& val) {
 	
 		this->setUniform3f("u_Material.ambient", val.getAmbient());
 		this->setUniform3f("u_Material.diffuse", val.getDiffuse());
 		this->setUniform3f("u_Material.specular", val.getSpecular());
+		this->setUniform1f("u_Material.shininess", val.getShininess());
+		this->setUniform1i("u_Material.useDiffuseMap", val.isUsingDiffuseMap());
+		val.getDiffuseMap().bind();
+		this->setUniform1i("u_Material.diffuseMap", val.getDiffuseMap().getSlot());
+		Log::info("uniformed Texture: {}", val.getDiffuseMap().getSlot());
 	
 	}
 

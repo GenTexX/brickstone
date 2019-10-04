@@ -1,41 +1,75 @@
 #include <bspch.h>
 #include "texture.h"
 
-bs::Texture::Texture(const std::string & path) : path(path) {
+namespace bs {
 
-	stbi_set_flip_vertically_on_load(1);
-	this->buffer = stbi_load(this->path.c_str(), &(this->width), &(this->height), &(bpp), 4);
+	Texture::Texture(const std::string& path, const unsigned int& slot) : path(path), slot(slot) {
 
-	glGenTextures(1, &(this->id));
-	glBindTexture(GL_TEXTURE_2D, this->id);
+		stbi_set_flip_vertically_on_load(1);
+		this->buffer = stbi_load(this->path.c_str(), &(this->width), &(this->height), &(bpp), 4);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glGenTextures(1, &(this->id));
+		glBindTexture(GL_TEXTURE_2D, this->id);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (const void*)buffer);
-	glBindTexture(GL_TEXTURE_2D, 0);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	if (this->buffer)
-		stbi_image_free(this->buffer);
-}
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (const void*)buffer);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-bs::Texture::~Texture() {
+		if (this->buffer)
+			stbi_image_free(this->buffer);
+	}
 
-	glDeleteTextures(1, &(this->id));
+	Texture::~Texture() {
 
-}
+		glDeleteTextures(1, &(this->id));
 
-void bs::Texture::bind(const int& slot) {
+	}
 
-	glActiveTexture(GL_TEXTURE0 + slot);
-	glBindTexture(GL_TEXTURE_2D, this->id);
+	void Texture::setSlot(const unsigned int& slot)	{
+		this->slot = slot;
+	}
 
-}
+	unsigned int& Texture::getSlot() {
+		return this->slot;
+	}
 
-void bs::Texture::unbind() {
+	void Texture::loadTexture(const std::string& path) {
 
-	glBindTexture(GL_TEXTURE_2D, 0);
+		this->path = path;
+
+		stbi_set_flip_vertically_on_load(1);
+		this->buffer = stbi_load(this->path.c_str(), &(this->width), &(this->height), &(bpp), 4);
+
+		glBindTexture(GL_TEXTURE_2D, this->id);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, this->width, this->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (const void*)buffer);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (this->buffer)
+			stbi_image_free(this->buffer);
+	}
+
+	void Texture::bind() {
+
+		glActiveTexture(GL_TEXTURE0 + this->slot);
+		glBindTexture(GL_TEXTURE_2D, this->id);
+		Log::info("bound Texture: {}", this->slot);
+
+	}
+
+	void Texture::unbind() {
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+	}
 
 }

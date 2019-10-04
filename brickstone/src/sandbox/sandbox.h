@@ -10,7 +10,7 @@
 #include <texture/object.h>
 #include <scene/camera.h>
 #include <texture/material.h>
-
+#include <texture/texture.h>
 
 class Sandbox : public bs::Application {
 

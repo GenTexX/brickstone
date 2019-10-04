@@ -3,6 +3,7 @@
 #include <string>
 #include <GL/glew.h>
 #include "../stb_image/stb_image.h"
+#include <logging/log.h>
 
 namespace bs {
 
@@ -10,16 +11,23 @@ namespace bs {
 	private:
 		
 		unsigned int id;
+		unsigned int slot;
 		std::string path;
 		unsigned char* buffer;
 		int width, height;
 		int bpp;
 
 	public:
-		Texture(const std::string& path = "");
+		Texture(const std::string& path = "", const unsigned int& slot = 0);
 		~Texture();
 
-		void bind(const int& slot = 0);
+		void setSlot(const unsigned int& slot);
+
+		unsigned int& getSlot();
+
+		void loadTexture(const std::string& path = "");
+
+		void bind();
 		void unbind();
 
 	};
