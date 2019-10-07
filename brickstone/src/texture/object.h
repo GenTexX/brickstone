@@ -3,12 +3,16 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "../file/FileHandler.h"
-#include "../string/StringFormating.h"
-#include "../render/VertexBuffer.h"
-#include "../render/VertexArray.h"
-#include "../render/IndexBuffer.h"
-#include "../math/maths.h"
+#include <file/FileHandler.h>
+#include <string/StringFormating.h>
+#include <render/VertexBuffer.h>
+#include <render/VertexArray.h>
+#include <render/IndexBuffer.h>
+#include <math/maths.h>
+#include <logging/log.h>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 
 namespace bs {
 

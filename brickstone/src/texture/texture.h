@@ -25,7 +25,7 @@ namespace bs {
 
 		unsigned int& getSlot();
 
-		void loadTexture(const std::string& path = "");
+		void loadTexture(const std::string& path = "", unsigned int slot = 0);
 
 		void bind();
 		void unbind();

@@ -19,9 +19,13 @@ includeDir["SPDLOG"] = "vendor/spdlog/include"
 includeDir["GLEW"] = "vendor/GLEW/include"
 libDir["GLEW"] = "vendor/GLEW/lib"
 
---GLEW
+--SDL
 includeDir["SDL"] = "vendor/SDL/include"
 libDir["SDL"] = "vendor/SDL/lib"
+
+--ASSIMP
+includeDir["ASSIMP"] = "vendor/assimp/include"
+libDir["ASSIMP"] = "vendor/assimp/lib"
 
 project "brickstone"
 	location "brickstone"
@@ -45,13 +49,15 @@ project "brickstone"
 		"%{prj.name}/src",
 		"%{includeDir.SPDLOG}",
 		"%{includeDir.GLEW}",
-		"%{includeDir.SDL}"
+		"%{includeDir.SDL}",
+		"%{includeDir.ASSIMP}"
 	}
 	
 	libdirs
 	{
 		"%{libDir.GLEW}",
-		"%{libDir.SDL}"
+		"%{libDir.SDL}",
+		"%{libDir.ASSIMP}"
 	}
 	
 	links
@@ -60,7 +66,8 @@ project "brickstone"
 		"SDL2main.lib",
 		"glu32.lib",
 		"glew32s.lib",
-		"opengl32.lib"
+		"opengl32.lib",
+		"assimp-vc140-mt.lib"
 	}
 	
 	filter "system:windows"

@@ -145,10 +145,13 @@ namespace bs {
 		this->setUniform3f("u_Material.specular", val.getSpecular());
 		this->setUniform1f("u_Material.shininess", val.getShininess());
 		this->setUniform1i("u_Material.useDiffuseMap", val.isUsingDiffuseMap());
-		val.getDiffuseMap().bind();
 		this->setUniform1i("u_Material.diffuseMap", val.getDiffuseMap().getSlot());
-		Log::info("uniformed Texture: {}", val.getDiffuseMap().getSlot());
-	
+		this->setUniform1i("u_Material.useSpecularMap", val.isUsingSpecularMap());
+		this->setUniform1i("u_Material.specularMap", val.getSpecularMap().getSlot());
+		if(val.isUsingDiffuseMap())
+			val.getDiffuseMap().bind();
+		if(val.isUsingSpecularMap())
+			val.getSpecularMap().bind();
 	}
 
 	int Shader::create() {

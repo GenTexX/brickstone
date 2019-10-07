@@ -34,6 +34,7 @@ void Sandbox::run() {
 	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.3f, 0.3f, 0.3f), 2);
 
 	m.loadDiffuseMap("src/res/bricks.png");
+	//m.loadSpecularMap("src/res/bricks.png");
 
 
 	/* set shader */
@@ -58,7 +59,7 @@ void Sandbox::run() {
 	cam.y = 0.0f;
 	cam.z = 0.0f;
 
-	float f = 0.7;
+	float f = 0.7f;
 	float angle = 0.0;
 	float fov = 70.0;
 

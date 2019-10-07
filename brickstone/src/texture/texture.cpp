@@ -37,9 +37,10 @@ namespace bs {
 		return this->slot;
 	}
 
-	void Texture::loadTexture(const std::string& path) {
+	void Texture::loadTexture(const std::string& path, unsigned int slot) {
 
 		this->path = path;
+		this->slot = slot;
 
 		stbi_set_flip_vertically_on_load(1);
 		this->buffer = stbi_load(this->path.c_str(), &(this->width), &(this->height), &(bpp), 4);
