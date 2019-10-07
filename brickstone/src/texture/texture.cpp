@@ -33,8 +33,17 @@ namespace bs {
 		this->slot = slot;
 	}
 
+	void Texture::setType(TextureType type) {
+		this->type = type;
+	}
+
 	unsigned int& Texture::getSlot() {
 		return this->slot;
+	}
+
+	TextureType Texture::getType()
+	{
+		return this->type;
 	}
 
 	void Texture::loadTexture(const std::string& path, unsigned int slot) {

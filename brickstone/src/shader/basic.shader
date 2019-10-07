@@ -76,7 +76,6 @@ void main() {
 	vec3 unitLight = normalize(v_ToLightVector);
 	float diff = max(dot(unitNormal, unitLight), 0.0);
 	vec3 diffuse;
-	
 	if (u_Material.useDiffuseMap == 1) {
 		diffuse = vec3(texture(u_Material.diffuseMap, v_TexCoord))* diff * u_LightColor;
 	}
@@ -95,7 +94,6 @@ void main() {
 	else {
 		specular = u_Material.specular * spec * u_LightColor;
 	}
-
 
 	vec3 result = (ambient + diffuse + specular);
 
