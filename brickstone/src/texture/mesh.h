@@ -1,11 +1,13 @@
 #include <math/maths.h>
 #include <shader/shader.h>
 #include <texture/texture.h>
+#include <render/vertexArray.h>
+#include <render/indexBuffer.h>
+#include <render/renderer.h>
 
 namespace bs {
 
-	struct vertex
-	{
+	struct vertex {
 		vec3 position;
 		vec3 normal;
 		ivec2 texCoord;
@@ -14,8 +16,8 @@ namespace bs {
 	class Mesh {
 
 	private:
-		std::vector<vertex> m_Vertices;
-		std::vector<int> m_Indices;
+		VertexArray m_Vao;
+		IndexBuffer m_Ibo;
 		std::vector<Texture> m_Textures;
 
 		void setupMesh();

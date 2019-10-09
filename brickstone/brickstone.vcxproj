@@ -60,7 +60,7 @@
       <PrecompiledHeaderFile>bspch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BS_PLATFORM_WINDOWS;NOMINMAX;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;BS_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\GLEW\include;..\vendor\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\GLEW\include;..\vendor\SDL\include;..\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -69,8 +69,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\vendor\GLEW\lib;..\vendor\SDL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glew32s.lib;opengl32.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\GLEW\lib;..\vendor\SDL\lib;..\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -79,7 +79,7 @@
       <PrecompiledHeaderFile>bspch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>BS_PLATFORM_WINDOWS;NOMINMAX;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;BS_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\GLEW\include;..\vendor\SDL\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\GLEW\include;..\vendor\SDL\include;..\vendor\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -92,8 +92,8 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glew32s.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>..\vendor\GLEW\lib;..\vendor\SDL\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;glu32.lib;glew32s.lib;opengl32.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\vendor\GLEW\lib;..\vendor\SDL\lib;..\vendor\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -111,6 +111,7 @@
     <ClInclude Include="src\imgui\imstb_textedit.h" />
     <ClInclude Include="src\imgui\imstb_truetype.h" />
     <ClInclude Include="src\logging\log.h" />
+    <ClInclude Include="src\math\ivec2.h" />
     <ClInclude Include="src\math\mat4.h" />
     <ClInclude Include="src\math\maths.h" />
     <ClInclude Include="src\math\maths_func.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="src\stb_image\stb_image.h" />
     <ClInclude Include="src\string\stringFormating.h" />
     <ClInclude Include="src\texture\material.h" />
+    <ClInclude Include="src\texture\mesh.h" />
     <ClInclude Include="src\texture\object.h" />
     <ClInclude Include="src\texture\texture.h" />
     <ClInclude Include="src\window\keycode.h" />
@@ -145,6 +147,7 @@
     <ClCompile Include="src\imgui\imgui_impl_sdl.cpp" />
     <ClCompile Include="src\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\math\ivec2.cpp" />
     <ClCompile Include="src\math\mat4.cpp" />
     <ClCompile Include="src\math\vec2.cpp" />
     <ClCompile Include="src\math\vec3.cpp" />
@@ -159,16 +162,10 @@
     <ClCompile Include="src\stb_image\stb_image.cpp" />
     <ClCompile Include="src\string\stringFormating.cpp" />
     <ClCompile Include="src\texture\material.cpp" />
+    <ClCompile Include="src\texture\mesh.cpp" />
     <ClCompile Include="src\texture\object.cpp" />
     <ClCompile Include="src\texture\texture.cpp" />
     <ClCompile Include="src\window\window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\shader\basic.shader" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="src\res\bricks.png" />
-    <Image Include="src\res\wood.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

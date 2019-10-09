@@ -11,12 +11,13 @@ namespace bs {
 
 	}
 
-	void Renderer::draw(Shader& sho, VertexArray& vao) {
+	void Renderer::draw(Shader& sho, VertexArray& vao, IndexBuffer& ibo) {
 
 		sho.bind();
 		vao.bind();
+		ibo.bind();
 
-		glDrawArrays(GL_TRIANGLES, 0, vao.getCount()/6);
+		glDrawElements(GL_TRIANGLES, ibo.getCount(), GL_UNSIGNED_INT, nullptr);
 
 	}
 

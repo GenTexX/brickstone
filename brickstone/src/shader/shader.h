@@ -37,6 +37,7 @@ namespace bs {
 		~Shader();
 
 		void setUniform1i(const char* name, const int& val);
+		void setUniform1iv(const char* name, const std::vector<int>& val);
 		void setUniform1f(const char* name, const float& val);
 		void setUniform2f(const char* name, const bs::vec2& val);
 		void setUniform3f(const char* name, bs::vec3 val);

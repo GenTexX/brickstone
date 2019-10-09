@@ -15,7 +15,7 @@ namespace bs {
 		~IndexBuffer();
 
 		int getCount();
-		void setIndices(const unsigned int *ind, const int& cnt);
+		void setIndices(unsigned int *ind, const int& cnt);
 		int* map();
 		void unmap();
 		void bind();

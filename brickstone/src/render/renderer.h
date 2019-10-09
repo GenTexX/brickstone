@@ -15,7 +15,7 @@ namespace bs {
 		Renderer();
 		~Renderer();
 
-		static void draw(Shader& sho, VertexArray& vao);
+		static void draw(Shader& sho, VertexArray& vao, IndexBuffer& ibo);
 		static void clear();
 	};
 

@@ -99,7 +99,7 @@ void Sandbox::run() {
 
 		s.setUniformMat4("u_View", view);
 
-		bs::Renderer::draw(s, cube.vao);
+		//bs::Renderer::draw(s, cube.vao, );
 
 		ImGui_ImplSDL2_ProcessEvent(&(bs::Window::event));
 		
