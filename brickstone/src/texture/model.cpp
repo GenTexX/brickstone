@@ -3,7 +3,7 @@
 
 namespace bs {
 
-	bs::Model::Model(std::string& path) {
+	bs::Model::Model(const char* path) {
 		this->loadModel(path);
 	}
 
@@ -13,12 +13,12 @@ namespace bs {
 
 	void bs::Model::processNode(aiNode* node, const aiScene* scene) {
 		
-		for (int i = 0; i < node->mNumMeshes; i++) {
-			Mesh mesh = this->processMesh(scene->mMeshes[i], scene);
-			this->m_Meshes.push_back(mesh);
+		for (unsigned int i = 0; i < node->mNumMeshes; i++) {
+			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+			this->m_Meshes.push_back(processMesh(mesh, scene));
 		}
 
-		for (int i = 0; i < node->mNumChildren; i++) {
+		for (unsigned int i = 0; i < node->mNumChildren; i++) {
 			this->processNode(node->mChildren[i], scene);
 		}
 
@@ -28,10 +28,10 @@ namespace bs {
 	{
 
 		std::vector<vertex> vertices;
-		std::vector<int> indices;
+		std::vector<unsigned int> indices;
 		std::vector<Texture> textures;
 
-		for (int i = 0; i < mesh->mNumVertices; i++)
+		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
 			vertex v;
 			
@@ -45,24 +45,23 @@ namespace bs {
 
 			if (mesh->mTextureCoords[0]) {
 
-				vec2 vec;
-
 				v.texCoord.x = mesh->mTextureCoords[0][i].x;
 				v.texCoord.y = mesh->mTextureCoords[0][i].y;
 				
 			}
 			else {
-				v.texCoord = ivec2(0, 0);
+				v.texCoord = vec2(0, 0);
 			}
 
 			vertices.push_back(v);
 
 		}
 
-		for (int i = 0; i < mesh->mNumFaces; i++) {
+		for (unsigned int i = 0; i < mesh->mNumFaces; i++) {
+			
 			aiFace face = mesh->mFaces[i];
 
-			for (int j = 0; j < face.mNumIndices; j++)
+			for (unsigned int j = 0; j < face.mNumIndices; j++)
 			{
 				indices.push_back(face.mIndices[j]);
 			}
@@ -73,9 +72,11 @@ namespace bs {
 		{
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-			std::vector<Texture> diffuseMap = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
+			std::vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, DIFFUSE_MAP);
+			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
-			textures.insert(textures.end(), diffuseMap.begin(), diffuseMap.end());
+			std::vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, SPECULAR_MAP);
+			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
 		}
 
@@ -83,66 +84,47 @@ namespace bs {
 
 	}
 
-	std::vector<Texture> bs::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string name)
+	std::vector<Texture> bs::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name)
 	{
 
 		std::vector<Texture> textures;
 
-		for (int i = 0; i < mat->GetTextureCount(type); i++)
-		{
+		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
 
-			aiString fileName;
-			mat->GetTexture(type, i, &fileName);
-			bool skip = false;
-
-			for (int j = 0; j < m_TexturePaths.size(); j++) {
-				if (m_TexturePaths[j] == std::string(fileName.C_Str())) {
-
-					textures.push_back(this->m_Textures[j]);
-					skip = true;
-
-				}
-			}
-
-			if (!skip) {
-				this->m_TexturePaths.push_back(std::string(fileName.C_Str()));
-				this->m_Textures.push_back(Texture(this->m_Path.substr(0, this->m_Path.find_last_of('/'))));
-				switch (type) {
-				case aiTextureType_DIFFUSE:
-					this->m_Textures.back().setType(DIFFUSE_MAP);
-					break;
-				case aiTextureType_SPECULAR:
-					this->m_Textures.back().setType(SPECULAR_MAP);
-					break;
-				default:
-					Log::warn("No Valid texturetype {}", type);
-					this->m_Textures.back().setType(DIFFUSE_MAP);
-
-				}
-			
-			}
+			aiString str;
+			mat->GetTexture(type, i, &str);
+			Texture texture(std::string(str.C_Str()));
+			texture.setType(name);
+			textures.push_back(texture);
 
 		}
-			
+	
+		return textures;
+
 	}
 
-	Texture bs::Model::textureFromFile(std::string& path)
-	{
-		return Texture();
-	}
+	void bs::Model::loadModel(std::string path) {
 
-	void bs::Model::loadModel(std::string& path) {
-
-		this->m_Path = path;
 
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_ConvertToLeftHanded);
 		
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-			Log::error("Failed to load: {}", this->m_Path);
+			Log::error("Failed to load: {}", path);
+			Log::error("Assimp-Error: {}", importer.GetErrorString());
+			return;
 		}
 
+		this->m_Directory = path.substr(0, path.find_last_of('/'));
+
 		this->processNode(scene->mRootNode, scene);
+		
+	}
+
+	void Model::draw(Shader shader) {
+
+		for (unsigned int i = 0; i < m_Meshes.size(); i++)
+			this->m_Meshes[i].draw(shader);
 
 	}
 

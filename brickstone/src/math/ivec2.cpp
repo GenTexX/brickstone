@@ -3,14 +3,14 @@
 
 namespace bs {
 
-	const ivec2 ivec2::up(0.0f, 1.0f);
-	const ivec2 ivec2::down(0.0f, -1.0f);
-	const ivec2 ivec2::right(1.0f, 0.0f);
-	const ivec2 ivec2::left(-1.0f, 0.0f);
-	const ivec2 ivec2::one(1.0f, 1.0f);
-	const ivec2 ivec2::zero(0.0f, 0.0f);
+	const ivec2 ivec2::up(0, 1);
+	const ivec2 ivec2::down(0, -1);
+	const ivec2 ivec2::right(1, 0);
+	const ivec2 ivec2::left(-1, 0);
+	const ivec2 ivec2::one(1, 1);
+	const ivec2 ivec2::zero(0, 0);
 
-	ivec2::ivec2() : x(0.0f), y(0.0f) {
+	ivec2::ivec2() : x(0), y(0) {
 
 	}
 
@@ -30,15 +30,9 @@ namespace bs {
 
 	}
 
-	float ivec2::sqrMagnitude() {
+	int ivec2::sqrMagnitude() {
 
 		return this->x * this->x + this->y * this->y;
-
-	}
-
-	ivec2 ivec2::normalized() {
-
-		return *this / this->magnitude();
 
 	}
 
@@ -216,7 +210,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator+(ivec2 left, const float& right) {
+	ivec2 operator+(ivec2 left, const int& right) {
 
 		left.x += right;
 		left.y += right;
@@ -224,7 +218,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator-(ivec2 left, const float& right) {
+	ivec2 operator-(ivec2 left, const int& right) {
 
 		left.x -= right;
 		left.y -= right;
@@ -232,7 +226,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator*(ivec2 left, const float& right) {
+	ivec2 operator*(ivec2 left, const int& right) {
 
 		left.x *= right;
 		left.y *= right;
@@ -240,7 +234,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator/(ivec2 left, const float& right) {
+	ivec2 operator/(ivec2 left, const int& right) {
 
 		left.x /= right;
 		left.y /= right;
@@ -248,7 +242,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator+(const float& left, ivec2 right) {
+	ivec2 operator+(const int& left, ivec2 right) {
 
 		right.x += left;
 		right.y += left;
@@ -256,7 +250,7 @@ namespace bs {
 
 	}
 
-	ivec2 operator*(const float& left, ivec2 right) {
+	ivec2 operator*(const int& left, ivec2 right) {
 
 		right.x *= left;
 		right.y *= left;
@@ -273,27 +267,19 @@ namespace bs {
 
 	}
 
-
-
-	float ivec2::dot(const ivec2& left, const ivec2& right) {
-
-		return left.x * right.x + left.y * right.y;
-
-	}
-
 	float ivec2::distance(const ivec2& left, const ivec2& right) {
 
 		return (left - right).magnitude();
 
 	}
 
-	float ivec2::sqrDistance(const ivec2& left, const ivec2& right) {
+	int ivec2::sqrDistance(const ivec2& left, const ivec2& right) {
 
 		return (left - right).sqrMagnitude();
 
 	}
 
-	ivec2 ivec2::lerp(const ivec2& left, const ivec2& right, const float& t) {
+	ivec2 ivec2::lerp(const ivec2& left, const ivec2& right, const int& t) {
 
 		return ((right - left) * t) + left;
 

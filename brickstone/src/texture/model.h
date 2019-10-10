@@ -12,19 +12,18 @@ namespace bs {
 
 	private:
 		std::vector<Mesh> m_Meshes;
-		std::string m_Path;
-		std::vector<std::string> m_TexturePaths;
-		std::vector<Texture> m_Textures;
-		
+		std::string m_Directory;
+
+		void loadModel(std::string path);
 		void processNode(aiNode* node, const aiScene* scene);
 		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string name);
-		Texture textureFromFile(std::string& path);
+		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name);
+
 	public:
-		Model(std::string& path);
+		Model(const char* path);
 		~Model();
 
-		void loadModel(std::string& path);
+		void draw(Shader shader);
 
 	};
 

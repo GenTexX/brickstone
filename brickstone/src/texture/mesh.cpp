@@ -3,55 +3,73 @@
 
 namespace bs {
 
-	Mesh::Mesh(std::vector<vertex> vertices, std::vector<int> indices, std::vector<Texture> textures)
-		: m_Textures(textures) {
+	Mesh::Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
+		 : vertices(vertices), indices(indices), textures(textures) {
 
-		this->m_Vao.setData(&(vertices[0].position.x), vertices.size() * sizeof(vertex));
-		this->m_Ibo.setIndices((unsigned int*)indices.data(), indices.size());
-
-		this->m_Vao.setVertexAttrib(0, 0, 3, sizeof(vertex), 0);
-		this->m_Vao.setVertexAttrib(1, 1, 3, sizeof(vertex), 3);
-		this->m_Vao.setVertexAttrib(2, 2, 2, sizeof(vertex), 6);
-
+		this->setupMesh();
 	}
 
 	Mesh::~Mesh(){}
 
 	void Mesh::draw(Shader shader) {
+		unsigned int diffuseNr = 1;
+		unsigned int specularNr = 1;
 	
-		uint32_t texCount = 0;
+		for (int i = 0; i < this->textures.size(); i++) {
 
-		std::vector<int> diffuseSlots;
-		std::vector<int> specularSlots;
-	
-		for (auto texture : this->m_Textures) {
+			glActiveTexture(GL_TEXTURE0 + 1);
 
-			texture.setSlot(texCount);
-			texture.bind();
+			std::string number;
+			TextureType t = this->textures[i].getType();
 
-			switch (texture.getType()) {
-
+			switch (t) {
 			case DIFFUSE_MAP:
-				diffuseSlots.push_back(texCount);
+				number = std::to_string(diffuseNr++);
+				shader.setUniform1i(("material.diffuseMap." + number).c_str(), i);
 				break;
+
 			case SPECULAR_MAP:
-				specularSlots.push_back(texCount);
+				number = std::to_string(specularNr++);
+				shader.setUniform1i(("material.specularMap." + number).c_str(), i);
 				break;
+
 			default:
 				break;
-			
 			}
 
-			shader.setUniform1iv("diffuseSlot", diffuseSlots);
-			shader.setUniform1iv("specularMaps", specularSlots);
+			this->textures[i].setSlot(i);
+			this->textures[i].bind();
 
-			texCount++;
 		}
 
-		Renderer::draw(shader, this->m_Vao, this->m_Ibo);
+		glBindVertexArray(this->vao);
+		glDrawElements(GL_TRIANGLES, (GLsizei) this->indices.size(), GL_UNSIGNED_INT, 0);
 
 	}
 
+	void Mesh::setupMesh() {
 
+		glGenVertexArrays(1, &(this->vao));
+		glGenBuffers(1, &(this->vbo));
+		glGenBuffers(1, &(this->ebo));
+
+		glBindVertexArray(this->vao);
+		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+
+		glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(vertex), &(this->vertices[0]), GL_STATIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(unsigned int), &(this->indices[0]), GL_STATIC_DRAW);
+
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) 0);
+		
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) offsetof(vertex, normal));
+		
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) offsetof(vertex, texCoord));
+
+	}
 
 }

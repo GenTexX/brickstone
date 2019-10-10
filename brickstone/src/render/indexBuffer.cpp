@@ -17,7 +17,7 @@ namespace bs {
 		return this->count;
 	}
 
-	void IndexBuffer::setIndices(const unsigned int* ind, const int& cnt) {
+	void IndexBuffer::setIndices(unsigned int* ind, const int& cnt) {
 
 		this->count = cnt;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, cnt * sizeof(unsigned int), ind, GL_STATIC_DRAW);

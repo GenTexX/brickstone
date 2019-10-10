@@ -18,8 +18,7 @@ namespace bs {
 		static const ivec2 up, down, right, left, one, zero;
 
 		float magnitude();
-		float sqrMagnitude();
-		ivec2 normalized();
+		int sqrMagnitude();
 		bool equals(ivec2& other);
 
 		//calculation
@@ -66,10 +65,9 @@ namespace bs {
 
 		friend std::ostream& operator<<(std::ostream& stream, ivec2& vector);
 
-		static float dot(const ivec2& left, const ivec2& right);
 		static float distance(const ivec2& left, const ivec2& right);
-		static float sqrDistance(const ivec2& left, const ivec2& right);
-		static ivec2 lerp(const ivec2& left, const ivec2& right, const float& t);
+		static int sqrDistance(const ivec2& left, const ivec2& right);
+		static ivec2 lerp(const ivec2& left, const ivec2& right, const int& t);
 
 		std::string toString();
 

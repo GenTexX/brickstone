@@ -10,20 +10,22 @@ namespace bs {
 	struct vertex {
 		vec3 position;
 		vec3 normal;
-		ivec2 texCoord;
+		vec2 texCoord;
 	};
 
 	class Mesh {
 
 	private:
-		VertexArray m_Vao;
-		IndexBuffer m_Ibo;
-		std::vector<Texture> m_Textures;
+		unsigned int vao, vbo, ebo;
 
 		void setupMesh();
 
 	public:
-		Mesh(std::vector<vertex> vertices, std::vector<int> indices, std::vector<Texture> textures);
+		std::vector<vertex> vertices;
+		std::vector<unsigned int> indices;
+		std::vector<Texture> textures;
+
+		Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
 		~Mesh();
 
 		void draw(Shader shader);

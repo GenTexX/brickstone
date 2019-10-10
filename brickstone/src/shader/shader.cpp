@@ -114,7 +114,7 @@ namespace bs {
 
 	void Shader::setUniform1iv(const char* name, const std::vector<int>& val) {
 
-		glUniform1iv(glGetUniformLocation(this->program, name), val.size(), val.data());
+		glUniform1iv(glGetUniformLocation(this->program, name), (GLsizei) val.size(), val.data());
 
 	}
 

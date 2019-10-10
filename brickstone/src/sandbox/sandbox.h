@@ -11,6 +11,7 @@
 #include <scene/camera.h>
 #include <texture/material.h>
 #include <texture/texture.h>
+#include <texture/model.h>
 
 class Sandbox : public bs::Application {
 

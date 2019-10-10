@@ -23,19 +23,20 @@ void Sandbox::run() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	bs::Object cube;
-	cube.readFile("src/res/cube.obj");
+	//cube.readFile("src/res/monkey.obj");
 
 	/* create matrices */
-	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0f / 9.0f, 0.01f, 100.0f);
+	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0f / 9.0f, 0.01f, 300.0f);
 	bs::mat4 view = bs::mat4::rotation(20.0f, bs::vec3(0.0, 0.0, 0.0));
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
 
 	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.3f, 0.3f, 0.3f), 2);
 
-	m.loadDiffuseMap("src/res/bricks.png");
+	//m.loadDiffuseMap("src/res/bricks.png");
 	//m.loadSpecularMap("src/res/bricks.png");
 
+	bs::Model model("src/res/monkey.obj");
 
 	/* set shader */
 	bs::Shader s;
@@ -98,6 +99,8 @@ void Sandbox::run() {
 		view = cam.getViewMatrix();
 
 		s.setUniformMat4("u_View", view);
+
+		model.draw(s);
 
 		//bs::Renderer::draw(s, cube.vao, );
 
