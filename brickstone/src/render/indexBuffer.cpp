@@ -5,7 +5,7 @@ namespace bs {
 
 	IndexBuffer::IndexBuffer() {
 
-		glGenBuffers(1, &(this->id));
+		glGenBuffers(1, &(this->m_ID));
 
 	}
 
@@ -14,12 +14,12 @@ namespace bs {
 	}
 
 	int IndexBuffer::getCount() {
-		return this->count;
+		return this->m_Count;
 	}
 
 	void IndexBuffer::setIndices(unsigned int* ind, const int& cnt) {
 
-		this->count = cnt;
+		this->m_Count = cnt;
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, cnt * sizeof(unsigned int), ind, GL_STATIC_DRAW);
 
 	}
@@ -30,13 +30,13 @@ namespace bs {
 
 	void IndexBuffer::unmap() {
 	
-		glUnmapBuffer(this->id);
+		glUnmapBuffer(this->m_ID);
 	
 	}
 
 	void IndexBuffer::bind() {
 
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->m_ID);
 
 	}
 }

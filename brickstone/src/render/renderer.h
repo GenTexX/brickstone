@@ -1,7 +1,7 @@
 #pragma once
 
 #include <shader/shader.h>
-#include <texture/material.h>
+#include <model/material.h>
 #include "VertexArray.h"
 #include "IndexBuffer.h"
 

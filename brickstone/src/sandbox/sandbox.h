@@ -7,11 +7,11 @@
 #include <application/application.h>
 #include <logging/log.h>
 #include <window/window.h>
-#include <texture/object.h>
+#include <model/object.h>
 #include <scene/camera.h>
-#include <texture/material.h>
-#include <texture/texture.h>
-#include <texture/model.h>
+#include <model/material.h>
+#include <model/texture.h>
+#include <model/model.h>
 
 class Sandbox : public bs::Application {
 

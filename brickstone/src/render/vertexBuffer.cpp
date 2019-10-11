@@ -5,7 +5,7 @@ namespace bs {
 
 	VertexBuffer::VertexBuffer() {
 
-		glGenBuffers(1, &(this->id));
+		glGenBuffers(1, &(this->m_ID));
 
 	}
 
@@ -13,13 +13,13 @@ namespace bs {
 
 	}
 
-	void VertexBuffer::setData(const float* pos, const int& size) {
+	void VertexBuffer::setData(const float* pos, const unsigned int& size) {
 
 		glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), pos, GL_STATIC_DRAW);
 
 	}
 
-	void VertexBuffer::setVertexAttrib(const int& index, const int& layout, const int& vertexSize, const int& stride, const int& offset) {
+	void VertexBuffer::setVertexAttrib(const int& index, const int& layout, const unsigned int& vertexSize, const unsigned int& stride, const unsigned int& offset) {
 
 		glEnableVertexAttribArray(index);
 		glVertexAttribPointer(layout, vertexSize, GL_FLOAT, GL_FALSE, stride * sizeof(float), (const void*)(offset * sizeof(float)));
@@ -38,7 +38,7 @@ namespace bs {
 
 	void VertexBuffer::bind() {
 
-		glBindBuffer(GL_ARRAY_BUFFER, this->id);
+		glBindBuffer(GL_ARRAY_BUFFER, this->m_ID);
 
 	}
 

@@ -10,31 +10,31 @@ namespace bs {
 	class Window {
 
 	private:
-		SDL_GLContext m_glContext;
-		SDL_Window* m_window;
-		int m_width, m_height;
-		int m_posX, m_posY;
-		std::string m_title;
-		uint64_t m_keystate;
-		uint8_t m_mousebuttonstate;
-		int mousePosX, mousePosY, mouseWheelDirection;
+		SDL_GLContext m_GLContext;
+		SDL_Window* m_Window;
+		int m_Width, m_Height;
+		int m_PosX, m_PosY;
+		std::string m_Title;
+		uint64_t m_Keystate;
+		uint8_t m_MouseButtonState;
+		int m_MousePosX, m_MousePosY, m_MouseWheelDirection;
 
 
 
-		callback_function resized = nullptr;
-		callback_function moved = nullptr;
-		callback_function minimized = nullptr;
-		callback_function maximized = nullptr;
-		callback_function hidden = nullptr;
-		callback_function exposed = nullptr;
-		callback_function entered = nullptr;
-		callback_function left = nullptr;
-		callback_function mousebuttondown = nullptr;
-		callback_function mousebuttonup = nullptr;
-		callback_function mousemotion = nullptr;
-		callback_function mousewheel = nullptr;
-		callback_function keydown = nullptr;
-		callback_function keyup = nullptr;
+		callback_function cb_Resized = nullptr;
+		callback_function cb_Moved = nullptr;
+		callback_function cb_Minimized = nullptr;
+		callback_function cb_Maximized = nullptr;
+		callback_function cb_Hidden = nullptr;
+		callback_function cb_Exposed = nullptr;
+		callback_function cb_Entered = nullptr;
+		callback_function cb_Left = nullptr;
+		callback_function cb_MouseButtonDown = nullptr;
+		callback_function cb_MouseButtonUp = nullptr;
+		callback_function cb_MouseMotion = nullptr;
+		callback_function cb_MouseWheel = nullptr;
+		callback_function cb_KeyDown = nullptr;
+		callback_function cb_KeyUp = nullptr;
 
 		static int handleEvent(void* data, SDL_Event* event);
 

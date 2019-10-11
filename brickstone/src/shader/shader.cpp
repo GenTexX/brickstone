@@ -5,13 +5,13 @@ namespace bs {
 
 	Shader::Shader() {
 
-		this->program = 0;
+		this->m_Program = 0;
 
-		this->vertexId = 0;
-		this->tessControlId = 0;
-		this->tessEvaluationId = 0;
-		this->geometryId = 0;
-		this->fragmentId = 0;
+		this->m_VertexId = 0;
+		this->m_TessControlId = 0;
+		this->m_TessEvaluationId = 0;
+		this->m_GeometryId = 0;
+		this->m_FragmentId = 0;
 
 	}
 
@@ -96,11 +96,11 @@ namespace bs {
 
 		fclose(shaderFile);
 
-		this->vertexSrc = vertex.str();
-		this->controlSrc = tessControl.str();
-		this->evaluationSrc = tessEvaluation.str();
-		this->geometrySrc = geometry.str();
-		this->fragmentSrc = fragment.str();
+		this->m_VertexSrc = vertex.str();
+		this->m_ControlSrc = tessControl.str();
+		this->m_EvaluationSrc = tessEvaluation.str();
+		this->m_GeometrySrc = geometry.str();
+		this->m_FragmentSrc = fragment.str();
 
 		return 0;
 
@@ -108,38 +108,38 @@ namespace bs {
 
 	void Shader::setUniform1i(const char * name, const int & val) {
 	
-		glUniform1i(glGetUniformLocation(this->program, name), val);
+		glUniform1i(glGetUniformLocation(this->m_Program, name), val);
 	
 	}
 
 	void Shader::setUniform1iv(const char* name, const std::vector<int>& val) {
 
-		glUniform1iv(glGetUniformLocation(this->program, name), (GLsizei) val.size(), val.data());
+		glUniform1iv(glGetUniformLocation(this->m_Program, name), (GLsizei) val.size(), val.data());
 
 	}
 
 	void Shader::setUniform1f(const char* name, const float& val) {
 	
-		glUniform1f(glGetUniformLocation(this->program, name), val);
+		glUniform1f(glGetUniformLocation(this->m_Program, name), val);
 	
 	}
 
 	void Shader::setUniform2f(const char* name, const bs::vec2& val) {
 	
-		glUniform2f(glGetUniformLocation(this->program, name), val.x, val.y);
+		glUniform2f(glGetUniformLocation(this->m_Program, name), val.x, val.y);
 	
 	}
 
 	void Shader::setUniform3f(const char * name, bs::vec3 val) {
 		
-		glUniform3f(glGetUniformLocation(this->program, name), val.x, val.y, val.z);
+		glUniform3f(glGetUniformLocation(this->m_Program, name), val.x, val.y, val.z);
 	
 	}
 
 	void Shader::setUniformMat4(const char * name, const bs::mat4 & val) {
 	
 
-		int location = glGetUniformLocation(this->program, name);
+		int location = glGetUniformLocation(this->m_Program, name);
 		glUniformMatrix4fv(location, 1, GL_FALSE, val.elements);
 	
 	}
@@ -163,14 +163,14 @@ namespace bs {
 	int Shader::create() {
 
 		/* delete old program */
-		if (this->program) glDeleteProgram(this->program);
+		if (this->m_Program) glDeleteProgram(this->m_Program);
 
 		/* compile shaders */
 		if (this->compile() < 0) return -1;
 
-		this->program = glCreateProgram();
+		this->m_Program = glCreateProgram();
 
-		if (!this->program) {
+		if (!this->m_Program) {
 
 			std::cout << "Failed to create shader program" << std::endl;
 			return -1;
@@ -178,18 +178,18 @@ namespace bs {
 		}
 
 		/* attach shaders */
-		glAttachShader(this->program, this->vertexId);
-		glAttachShader(this->program, this->fragmentId);
+		glAttachShader(this->m_Program, this->m_VertexId);
+		glAttachShader(this->m_Program, this->m_FragmentId);
 
 		/* link shader program */
-		glLinkProgram(this->program);
+		glLinkProgram(this->m_Program);
 
 		/* validate shader program */
-		glValidateProgram(this->program);
+		glValidateProgram(this->m_Program);
 
 		/* check for shader validation errors*/
 		int programValidation;
-		glGetProgramiv(this->program, GL_VALIDATE_STATUS, &programValidation);
+		glGetProgramiv(this->m_Program, GL_VALIDATE_STATUS, &programValidation);
 		if (!programValidation) {
 
 			std::cout << "Shaderprogram validationfailed." << std::endl;
@@ -197,8 +197,8 @@ namespace bs {
 		}
 
 		/* delete shaders */
-		glDeleteShader(this->vertexId);
-		glDeleteShader(this->fragmentId);
+		glDeleteShader(this->m_VertexId);
+		glDeleteShader(this->m_FragmentId);
 
 		return 0;
 	}
@@ -206,11 +206,11 @@ namespace bs {
 	int Shader::compile() {
 
 		/* create empty shader objects*/
-		if (!this->vertexSrc.empty()) this->vertexId = glCreateShader(GL_VERTEX_SHADER);
-		if (!this->controlSrc.empty()) this->tessControlId = glCreateShader(GL_TESS_CONTROL_SHADER);
-		if (!this->evaluationSrc.empty()) this->tessEvaluationId = glCreateShader(GL_TESS_EVALUATION_SHADER);
-		if (!this->geometrySrc.empty()) this->geometryId = glCreateShader(GL_GEOMETRY_SHADER);
-		if (!this->fragmentSrc.empty()) this->fragmentId = glCreateShader(GL_FRAGMENT_SHADER);
+		if (!this->m_VertexSrc.empty()) this->m_VertexId = glCreateShader(GL_VERTEX_SHADER);
+		if (!this->m_ControlSrc.empty()) this->m_TessControlId = glCreateShader(GL_TESS_CONTROL_SHADER);
+		if (!this->m_EvaluationSrc.empty()) this->m_TessEvaluationId = glCreateShader(GL_TESS_EVALUATION_SHADER);
+		if (!this->m_GeometrySrc.empty()) this->m_GeometryId = glCreateShader(GL_GEOMETRY_SHADER);
+		if (!this->m_FragmentSrc.empty()) this->m_FragmentId = glCreateShader(GL_FRAGMENT_SHADER);
 
 
 		
@@ -220,25 +220,25 @@ namespace bs {
 		/************************************/
 		/********** VERTEX SHADER ***********/
 		/************************************/
-		if (this->vertexId) {
+		if (this->m_VertexId) {
 
 			/* set vertex shader source */
-			const char* vertexShaderSource = this->vertexSrc.c_str();
-			glShaderSource(this->vertexId, 1, &vertexShaderSource, nullptr);
+			const char* vertexShaderSource = this->m_VertexSrc.c_str();
+			glShaderSource(this->m_VertexId, 1, &vertexShaderSource, nullptr);
 
 			/* compile fragment shader */
-			glCompileShader(this->vertexId);
+			glCompileShader(this->m_VertexId);
 
 			/* check for compilation errors */
 			int vertexCompilationResult;
-			glGetShaderiv(this->vertexId, GL_COMPILE_STATUS, &vertexCompilationResult);
+			glGetShaderiv(this->m_VertexId, GL_COMPILE_STATUS, &vertexCompilationResult);
 			if (vertexCompilationResult == GL_FALSE) {
 
 				int length;
-				glGetShaderiv(this->vertexId, GL_INFO_LOG_LENGTH, &length);
+				glGetShaderiv(this->m_VertexId, GL_INFO_LOG_LENGTH, &length);
 
 				char* msg = (char*)alloca(length * sizeof(char));
-				glGetShaderInfoLog(this->vertexId, length, &length, msg);
+				glGetShaderInfoLog(this->m_VertexId, length, &length, msg);
 
 				std::cout << "Failed to compile Vertex Shader" << std::endl;
 				std::cout << msg << std::endl;
@@ -252,25 +252,25 @@ namespace bs {
 		/************************************/
 		/******* TESS CONTROL SHADER ********/
 		/************************************/
-		if (this->tessControlId) {
+		if (this->m_TessControlId) {
 
 			/* set control shader source */
-			const char* controlShaderSource = this->controlSrc.c_str();
-			glShaderSource(this->tessControlId, 1, &controlShaderSource, nullptr);
+			const char* controlShaderSource = this->m_ControlSrc.c_str();
+			glShaderSource(this->m_TessControlId, 1, &controlShaderSource, nullptr);
 
 			/* compile control shader */
-			glCompileShader(this->tessControlId);
+			glCompileShader(this->m_TessControlId);
 
 			/* check for compilation errors*/
 			int controlCompilationResult;
-			glGetShaderiv(this->tessControlId, GL_COMPILE_STATUS, &controlCompilationResult);
+			glGetShaderiv(this->m_TessControlId, GL_COMPILE_STATUS, &controlCompilationResult);
 			if (controlCompilationResult == GL_FALSE) {
 
 				int length;
-				glGetShaderiv(this->tessControlId, GL_INFO_LOG_LENGTH, &length);
+				glGetShaderiv(this->m_TessControlId, GL_INFO_LOG_LENGTH, &length);
 
 				char* msg = (char*)alloca(length * sizeof(char));
-				glGetShaderInfoLog(this->tessControlId, length, &length, msg);
+				glGetShaderInfoLog(this->m_TessControlId, length, &length, msg);
 
 				std::cout << "Failed to compile tess control Shader" << std::endl;
 				std::cout << msg << std::endl;
@@ -284,25 +284,25 @@ namespace bs {
 		/************************************/
 		/****** TESS EVALUATION SHADER ******/
 		/************************************/
-		if (this->tessEvaluationId) {
+		if (this->m_TessEvaluationId) {
 
 			/* set control shader source */
-			const char* evaluationShaderSource = this->evaluationSrc.c_str();
-			glShaderSource(this->tessEvaluationId, 1, &evaluationShaderSource, nullptr);
+			const char* evaluationShaderSource = this->m_EvaluationSrc.c_str();
+			glShaderSource(this->m_TessEvaluationId, 1, &evaluationShaderSource, nullptr);
 
 			/* compile control shader */
-			glCompileShader(this->tessEvaluationId);
+			glCompileShader(this->m_TessEvaluationId);
 
 			/* check for compilation errors*/
 			int evaluationCompilationResult;
-			glGetShaderiv(this->tessEvaluationId, GL_COMPILE_STATUS, &evaluationCompilationResult);
+			glGetShaderiv(this->m_TessEvaluationId, GL_COMPILE_STATUS, &evaluationCompilationResult);
 			if (evaluationCompilationResult == GL_FALSE) {
 
 				int length;
-				glGetShaderiv(this->tessEvaluationId, GL_INFO_LOG_LENGTH, &length);
+				glGetShaderiv(this->m_TessEvaluationId, GL_INFO_LOG_LENGTH, &length);
 
 				char* msg = (char*)alloca(length * sizeof(char));
-				glGetShaderInfoLog(this->tessEvaluationId, length, &length, msg);
+				glGetShaderInfoLog(this->m_TessEvaluationId, length, &length, msg);
 
 				std::cout << "Failed to compile tess evaluation Shader" << std::endl;
 				std::cout << msg << std::endl;
@@ -316,25 +316,25 @@ namespace bs {
 		/************************************/
 		/********* GEOMETRY SHADER **********/
 		/************************************/
-		if (this->geometryId) {
+		if (this->m_GeometryId) {
 
 			/* set control shader source */
-			const char* geometryShaderSource = this->geometrySrc.c_str();
-			glShaderSource(this->geometryId, 1, &geometryShaderSource, nullptr);
+			const char* geometryShaderSource = this->m_GeometrySrc.c_str();
+			glShaderSource(this->m_GeometryId, 1, &geometryShaderSource, nullptr);
 
 			/* compile control shader */
-			glCompileShader(this->geometryId);
+			glCompileShader(this->m_GeometryId);
 
 			/* check for compilation errors*/
 			int geometryCompilationResult;
-			glGetShaderiv(this->geometryId, GL_COMPILE_STATUS, &geometryCompilationResult);
+			glGetShaderiv(this->m_GeometryId, GL_COMPILE_STATUS, &geometryCompilationResult);
 			if (geometryCompilationResult == GL_FALSE) {
 
 				int length;
-				glGetShaderiv(this->geometryId, GL_INFO_LOG_LENGTH, &length);
+				glGetShaderiv(this->m_GeometryId, GL_INFO_LOG_LENGTH, &length);
 
 				char* msg = (char*)alloca(length * sizeof(char));
-				glGetShaderInfoLog(this->geometryId, length, &length, msg);
+				glGetShaderInfoLog(this->m_GeometryId, length, &length, msg);
 
 				std::cout << "Failed to compile tess geometry Shader" << std::endl;
 				std::cout << msg << std::endl;
@@ -348,25 +348,25 @@ namespace bs {
 		/************************************/
 		/********* FRAGMENT SHADER **********/
 		/************************************/
-		if (this->fragmentId) {
+		if (this->m_FragmentId) {
 
 			/* set fragment shader source */
-			const char* fragmentShaderSource = this->fragmentSrc.c_str();
-			glShaderSource(this->fragmentId, 1, &fragmentShaderSource, nullptr);
+			const char* fragmentShaderSource = this->m_FragmentSrc.c_str();
+			glShaderSource(this->m_FragmentId, 1, &fragmentShaderSource, nullptr);
 
 			/* compile fragment shader */
-			glCompileShader(this->fragmentId);
+			glCompileShader(this->m_FragmentId);
 
 			/* check for compilation errors*/
 			int fragmentCompilationResult;
-			glGetShaderiv(this->fragmentId, GL_COMPILE_STATUS, &fragmentCompilationResult);
+			glGetShaderiv(this->m_FragmentId, GL_COMPILE_STATUS, &fragmentCompilationResult);
 			if (fragmentCompilationResult == GL_FALSE) {
 
 				int length;
-				glGetShaderiv(this->fragmentId, GL_INFO_LOG_LENGTH, &length);
+				glGetShaderiv(this->m_FragmentId, GL_INFO_LOG_LENGTH, &length);
 
 				char* msg = (char*)alloca(length * sizeof(char));
-				glGetShaderInfoLog(this->fragmentId, length, &length, msg);
+				glGetShaderInfoLog(this->m_FragmentId, length, &length, msg);
 
 				std::cout << "Failed to compile Fragment Shader" << std::endl;
 				std::cout << msg << std::endl;
@@ -382,38 +382,38 @@ namespace bs {
 
 	void Shader::bind() {
 
-		glUseProgram(this->program);
+		glUseProgram(this->m_Program);
 
 	}
 
 
 	std::string& Shader::getVertexSource() {
 
-		return this->vertexSrc;
+		return this->m_VertexSrc;
 
 	}
 	
 	std::string& Shader::getTessControlSource() {
 
-		return this->controlSrc;
+		return this->m_ControlSrc;
 
 	}
 
 	std::string& Shader::getTessEvaluationSource() {
 
-		return this->evaluationSrc;
+		return this->m_EvaluationSrc;
 
 	}
 
 	std::string& Shader::getGeometrySource() {
 
-		return this->geometrySrc;
+		return this->m_GeometrySrc;
 
 	}
 
 	std::string& Shader::getFragmentSource() {
 
-		return this->fragmentSrc;
+		return this->m_FragmentSrc;
 
 	}
 

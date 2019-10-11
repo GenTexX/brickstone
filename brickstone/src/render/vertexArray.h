@@ -7,20 +7,19 @@ namespace bs {
 
 	class VertexArray {
 	private:
-		unsigned int id;
+		unsigned int m_ID;
+		unsigned int m_Count;
+		float* m_Buffer;
 
-		int count;
-
-		float* buffer;
+		VertexBuffer* m_Vbo;
 			
 	public:
 		VertexArray();
 		~VertexArray();
 
-		VertexBuffer *vbo;
 
-		int getCount();
-		void setData(const float* pos, const int& size);
+		unsigned int getCount();
+		void setData(const float* pos, const unsigned int& size);
 		void setVertexAttrib(const int& index, const int& layout, const int& vertexSize, const int& stride, const int& offset);
 		float* map();
 		void unmap();

@@ -13,6 +13,6 @@
 #include <render/renderer.h>
 #include <scene/camera.h>
 #include <shader/shader.h>
-#include <string/stringFormating.h>
-#include <texture/texture.h>
-#include <texture/object.h>
+#include <string/stringFormatting.h>
+#include <model/texture.h>
+#include <model/object.h>

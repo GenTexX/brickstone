@@ -31,12 +31,12 @@ void Sandbox::run() {
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
 
-	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.3f, 0.3f, 0.3f), 2);
+	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.1f, 0.1f, 0.1f), 2);
 
 	//m.loadDiffuseMap("src/res/bricks.png");
 	//m.loadSpecularMap("src/res/bricks.png");
 
-	bs::Model model("src/res/monkey.obj");
+	bs::Model model("src/res/terrain.obj");
 
 	/* set shader */
 	bs::Shader s;
@@ -57,7 +57,7 @@ void Sandbox::run() {
 	bs::Camera cam;
 
 	cam.x = 0.0f;
-	cam.y = 0.0f;
+	cam.y = 2.0f;
 	cam.z = 0.0f;
 
 	float f = 0.7f;
