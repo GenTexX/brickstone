@@ -137,6 +137,9 @@
     <ClInclude Include="src\texture\mesh.h">
       <Filter>texture</Filter>
     </ClInclude>
+    <ClInclude Include="src\texture\model.h">
+      <Filter>texture</Filter>
+    </ClInclude>
     <ClInclude Include="src\texture\object.h">
       <Filter>texture</Filter>
     </ClInclude>
@@ -223,6 +226,9 @@
       <Filter>texture</Filter>
     </ClCompile>
     <ClCompile Include="src\texture\mesh.cpp">
+      <Filter>texture</Filter>
+    </ClCompile>
+    <ClCompile Include="src\texture\model.cpp">
       <Filter>texture</Filter>
     </ClCompile>
     <ClCompile Include="src\texture\object.cpp">

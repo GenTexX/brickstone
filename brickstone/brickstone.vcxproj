@@ -129,6 +129,7 @@
     <ClInclude Include="src\string\stringFormating.h" />
     <ClInclude Include="src\texture\material.h" />
     <ClInclude Include="src\texture\mesh.h" />
+    <ClInclude Include="src\texture\model.h" />
     <ClInclude Include="src\texture\object.h" />
     <ClInclude Include="src\texture\texture.h" />
     <ClInclude Include="src\window\keycode.h" />
@@ -163,6 +164,7 @@
     <ClCompile Include="src\string\stringFormating.cpp" />
     <ClCompile Include="src\texture\material.cpp" />
     <ClCompile Include="src\texture\mesh.cpp" />
+    <ClCompile Include="src\texture\model.cpp" />
     <ClCompile Include="src\texture\object.cpp" />
     <ClCompile Include="src\texture\texture.cpp" />
     <ClCompile Include="src\window\window.cpp" />

@@ -1,20 +1,44 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29230.47
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "brickstone", "brickstone\brickstone.vcxproj", "{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{E91FA52A-E5EC-4387-B87E-A45788D514B4}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BrickStone.Test", "test\BrickStone.Test\BrickStone.Test.vcxproj", "{82B9D097-2861-4498-95CA-81096CF27DB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Debug|x64.ActiveCfg = Debug|x64
 		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Debug|x64.Build.0 = Debug|x64
+		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Debug|x86.ActiveCfg = Debug|x64
 		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Release|x64.ActiveCfg = Release|x64
 		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Release|x64.Build.0 = Release|x64
+		{390FE44E-25C7-259C-8ECE-FEF77AA5C08C}.Release|x86.ActiveCfg = Release|x64
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Debug|x64.ActiveCfg = Debug|x64
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Debug|x64.Build.0 = Debug|x64
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Debug|x86.ActiveCfg = Debug|Win32
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Debug|x86.Build.0 = Debug|Win32
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Release|x64.ActiveCfg = Release|x64
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Release|x64.Build.0 = Release|x64
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Release|x86.ActiveCfg = Release|Win32
+		{82B9D097-2861-4498-95CA-81096CF27DB5}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{82B9D097-2861-4498-95CA-81096CF27DB5} = {E91FA52A-E5EC-4387-B87E-A45788D514B4}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9EDE82F6-67F7-4B5C-93AC-A406A28EA610}
 	EndGlobalSection
 EndGlobal
