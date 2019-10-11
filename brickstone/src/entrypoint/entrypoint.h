@@ -24,6 +24,7 @@ int main(int argc, char* args[]) {
 
 	auto app = getApplication();
 	
+	/*init() needs to create an opengl-context! */
 	app->init();
 
 	/* init glew */
@@ -34,6 +35,7 @@ int main(int argc, char* args[]) {
 		bs::Log::info("GLEW initialization succeeded.");
 	}
 
+	/* gameloop */
 	app->run();
 
 	SDL_Quit();

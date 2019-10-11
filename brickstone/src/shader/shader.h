@@ -7,7 +7,7 @@
 #include <sstream>
 #include <file/FileHandler.h>
 #include <math/maths.h>
-#include <texture/material.h>
+#include <model/material.h>
 #include <logging/log.h>
 
 namespace bs {
@@ -15,19 +15,19 @@ namespace bs {
 	class Shader {
 	private:
 
-		unsigned int vertexId;
-		unsigned int tessControlId;
-		unsigned int tessEvaluationId;
-		unsigned int geometryId;
-		unsigned int fragmentId;
-		unsigned int program;
+		unsigned int m_VertexId;
+		unsigned int m_TessControlId;
+		unsigned int m_TessEvaluationId;
+		unsigned int m_GeometryId;
+		unsigned int m_FragmentId;
+		unsigned int m_Program;
 
 
-		std::string vertexSrc;
-		std::string controlSrc;
-		std::string evaluationSrc;
-		std::string geometrySrc;
-		std::string fragmentSrc;
+		std::string m_VertexSrc;
+		std::string m_ControlSrc;
+		std::string m_EvaluationSrc;
+		std::string m_GeometrySrc;
+		std::string m_FragmentSrc;
 
 		int compile();
 

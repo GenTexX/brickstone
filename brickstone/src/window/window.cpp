@@ -7,16 +7,16 @@ namespace bs {
 
 
 	Window::Window(const int& width, const int& height, const char* title, const int& x, const int& y, Uint32 flags)
-		: m_width(width), m_height(height), m_title(title){
+		: m_Width(width), m_Height(height), m_Title(title){
 
 		flags |= SDL_WINDOW_OPENGL;
 
-		this->m_window = SDL_CreateWindow(title, x, y, width, height, flags);
+		this->m_Window = SDL_CreateWindow(title, x, y, width, height, flags);
 		SDL_PollEvent(&(Window::event));
 		SDL_AddEventWatch(handleEvent, this);
 
-		this->m_glContext = SDL_GL_CreateContext(this->m_window);
-		SDL_GL_MakeCurrent(this->m_window, this->m_glContext);
+		this->m_GLContext = SDL_GL_CreateContext(this->m_Window);
+		SDL_GL_MakeCurrent(this->m_Window, this->m_GLContext);
 
 		SDL_GL_SetSwapInterval(1);
 
@@ -24,9 +24,9 @@ namespace bs {
 
 	Window::~Window() {
 
-		SDL_GL_DeleteContext(this->m_glContext);
+		SDL_GL_DeleteContext(this->m_GLContext);
 
-		SDL_DestroyWindow(this->m_window);
+		SDL_DestroyWindow(this->m_Window);
 
 	}
 
@@ -38,43 +38,43 @@ namespace bs {
 
 		case SDL_WINDOWEVENT:
 
-			if (event->window.windowID == SDL_GetWindowID(w->m_window)) {
+			if (event->window.windowID == SDL_GetWindowID(w->m_Window)) {
 
 				switch (event->window.event) {
 
 					//RESIZED
 				case SDL_WINDOWEVENT_RESIZED:
-					SDL_GetWindowSize(w->m_window, &(w->m_width), &(w->m_height));
-					glViewport(0, 0, w->m_width, w->m_height);
+					SDL_GetWindowSize(w->m_Window, &(w->m_Width), &(w->m_Height));
+					glViewport(0, 0, w->m_Width, w->m_Height);
 					w->onWindowResize();
 					break;
 
 					//MOVED
 				case SDL_WINDOWEVENT_MOVED:
-					SDL_GetWindowPosition(w->m_window, &(w->m_posX), &(w->m_posY));
+					SDL_GetWindowPosition(w->m_Window, &(w->m_PosX), &(w->m_PosY));
 					w->onWindowMove();
 					break;
 
 					//MAXIMIZED
 				case SDL_WINDOWEVENT_MAXIMIZED:
-					SDL_GetWindowPosition(w->m_window, &(w->m_posX), &(w->m_posY));
-					SDL_GetWindowSize(w->m_window, &(w->m_width), &(w->m_height));
-					glViewport(0, 0, w->m_width, w->m_height);
+					SDL_GetWindowPosition(w->m_Window, &(w->m_PosX), &(w->m_PosY));
+					SDL_GetWindowSize(w->m_Window, &(w->m_Width), &(w->m_Height));
+					glViewport(0, 0, w->m_Width, w->m_Height);
 					w->onWindowMaximize();
 					break;
 
 					//MINIMIZED
 				case SDL_WINDOWEVENT_MINIMIZED:
-					SDL_GetWindowPosition(w->m_window, &(w->m_posX), &(w->m_posY));
-					SDL_GetWindowSize(w->m_window, &(w->m_width), &(w->m_height));
-					glViewport(0, 0, w->m_width, w->m_height);
+					SDL_GetWindowPosition(w->m_Window, &(w->m_PosX), &(w->m_PosY));
+					SDL_GetWindowSize(w->m_Window, &(w->m_Width), &(w->m_Height));
+					glViewport(0, 0, w->m_Width, w->m_Height);
 					w->onWindowMinimize();
 					break;
 
 				case SDL_WINDOWEVENT_HIDDEN:
-					SDL_GetWindowPosition(w->m_window, &(w->m_posX), &(w->m_posY));
-					SDL_GetWindowSize(w->m_window, &(w->m_width), &(w->m_height));
-					glViewport(0, 0, w->m_width, w->m_height);
+					SDL_GetWindowPosition(w->m_Window, &(w->m_PosX), &(w->m_PosY));
+					SDL_GetWindowSize(w->m_Window, &(w->m_Width), &(w->m_Height));
+					glViewport(0, 0, w->m_Width, w->m_Height);
 					w->onWindowHide();
 					break;
 
@@ -126,13 +126,13 @@ namespace bs {
 
 		SDL_PollEvent(&(Window::event));
 
-		SDL_GL_SwapWindow(this->m_window);
+		SDL_GL_SwapWindow(this->m_Window);
 
 	}
 
 	bool Window::shouldClose() {
 
-		if (Window::event.window.windowID == SDL_GetWindowID(this->m_window)) {
+		if (Window::event.window.windowID == SDL_GetWindowID(this->m_Window)) {
 			return Window::event.window.event == SDL_WINDOWEVENT_CLOSE;
 		}
 		else {
@@ -145,85 +145,85 @@ namespace bs {
 	//callback setter
 	void Window::setWindowResizeCallback(callback_function resize) {
 
-		this->resized = resize;
+		this->cb_Resized = resize;
 
 	}
 
 	void Window::setWindowMoveCallback(callback_function move) {
 
-		this->moved = move;
+		this->cb_Moved = move;
 
 	}
 
 	void Window::setWindowMaximizeCallback(callback_function maximize) {
 
-		this->maximized = maximize;
+		this->cb_Maximized = maximize;
 
 	}
 
 	void Window::setWindowMinimizeCallback(callback_function minimize) {
 
-		this->minimized = minimize;
+		this->cb_Minimized = minimize;
 
 	}
 
 	void Window::setWindowHideCallback(callback_function hide) {
 
-		this->hidden = hide;
+		this->cb_Hidden = hide;
 
 	}
 
 	void Window::setWindowExposeCallback(callback_function expose) {
 
-		this->exposed = expose;
+		this->cb_Exposed = expose;
 
 	}
 
 	void Window::setWindowEnterCallback(callback_function enter) {
 
-		this->entered = enter;
+		this->cb_Entered = enter;
 
 	}
 
 	void Window::setWindowLeaveCallback(callback_function leave) {
 
-		this->left = leave;
+		this->cb_Left = leave;
 
 	}
 
 	void Window::setMouseButtonDownCallback(callback_function mousebuttondown) {
 
-		this->mousebuttondown = mousebuttondown;
+		this->cb_MouseButtonDown = mousebuttondown;
 
 	}
 
 	void Window::setMouseButtonUpCallback(callback_function mousebuttonup) {
 
-		this->mousebuttonup = mousebuttonup;
+		this->cb_MouseButtonUp = mousebuttonup;
 
 	}
 
 	void Window::setMouseMotionCallback(callback_function mousemotion) {
 
-		this->mousemotion = mousemotion;
+		this->cb_MouseMotion = mousemotion;
 
 	}
 
 	void Window::setMouseWheelCallback(callback_function mousewheel) {
 
-		this->mousewheel = mousewheel;
+		this->cb_MouseWheel = mousewheel;
 
 	}
 
 	void Window::setKeyDownCallback(callback_function keydown) {
 
-		this->keydown = keydown;
+		this->cb_KeyDown = keydown;
 
 	}
 
 	void Window::setKeyUpCallback(callback_function keyup) {
 
-		this->keyup = keyup;
+		this->cb_KeyUp = keyup;
 
 	}
 
@@ -231,47 +231,47 @@ namespace bs {
 	//callback execution
 	void Window::onWindowResize() {
 
-		if (this->resized) this->resized();
+		if (this->cb_Resized) this->cb_Resized();
 	}
 
 	void Window::onWindowMove() {
 
-		if (this->moved) this->moved();
+		if (this->cb_Moved) this->cb_Moved();
 	}
 
 	void Window::onWindowMaximize() {
 
-		if (this->maximized) this->maximized();
+		if (this->cb_Maximized) this->cb_Maximized();
 
 	}
 
 	void Window::onWindowMinimize() {
 
-		if (this->minimized) this->minimized();
+		if (this->cb_Minimized) this->cb_Minimized();
 
 	}
 
 	void Window::onWindowHide() {
 
-		if (this->hidden) this->hidden();
+		if (this->cb_Hidden) this->cb_Hidden();
 
 	}
 
 	void Window::onWindowExpose() {
 
-		if (this->exposed) this->exposed();
+		if (this->cb_Exposed) this->cb_Exposed();
 
 	}
 
 	void Window::onWindowEnter() {
 
-		if (this->entered) this->entered();
+		if (this->cb_Entered) this->cb_Entered();
 
 	}
 
 	void Window::onWindowLeave() {
 
-		if (this->left) this->left();
+		if (this->cb_Left) this->cb_Left();
 
 	}
 
@@ -279,35 +279,35 @@ namespace bs {
 	
 		int key = getMouseCode(mousecode);
 
-		this->m_mousebuttonstate |= (1ULL << key);
+		this->m_MouseButtonState |= (1ULL << key);
 
-		if (this->mousebuttondown) this->mousebuttondown();
+		if (this->cb_MouseButtonDown) this->cb_MouseButtonDown();
 	
 	}
 	void Window::onMouseButtonUp(SDL_MouseButtonEvent mousecode) {
 	
 		int key = getMouseCode(mousecode);
 
-		this->m_mousebuttonstate &= ~(1ULL << key);
+		this->m_MouseButtonState &= ~(1ULL << key);
 
-		if (this->mousebuttonup) this->mousebuttonup();
+		if (this->cb_MouseButtonUp) this->cb_MouseButtonUp();
 	
 	}
 	
 	void Window::onMouseMotion(SDL_MouseMotionEvent mousecode) {
 
-		this->mousePosX = mousecode.x;
-		this->mousePosY = mousecode.y;
+		this->m_MousePosX = mousecode.x;
+		this->m_MousePosY = mousecode.y;
 	
-		if (this->mousemotion) this->mousemotion();
+		if (this->cb_MouseMotion) this->cb_MouseMotion();
 	
 	}
 
 	void Window::onMouseWheel(SDL_MouseWheelEvent mousecode) {
 	
-		this->mouseWheelDirection = mousecode.direction;
+		this->m_MouseWheelDirection = mousecode.direction;
 
-		if (this->mousewheel) this->mousewheel();
+		if (this->cb_MouseWheel) this->cb_MouseWheel();
 	
 	}
 
@@ -315,9 +315,9 @@ namespace bs {
 
 		int key = getKeyCode(scancode);
 
-		this->m_keystate |= (1ULL << key);
+		this->m_Keystate |= (1ULL << key);
 
-		if (this->keydown) this->keydown();
+		if (this->cb_KeyDown) this->cb_KeyDown();
 
 	}
 
@@ -325,9 +325,9 @@ namespace bs {
 
 		int key = getKeyCode(scancode);
 
-		this->m_keystate &= ~(1ULL << key);
+		this->m_Keystate &= ~(1ULL << key);
 
-		if (this->keyup) this->keyup();
+		if (this->cb_KeyUp) this->cb_KeyUp();
 
 	}
 
@@ -549,11 +549,11 @@ namespace bs {
 
 
 	SDL_Window* Window::getWindow() {
-		return this->m_window;
+		return this->m_Window;
 	}
 
 	SDL_GLContext& Window::getContext() {
-		return this->m_glContext;
+		return this->m_GLContext;
 	}
 
 }

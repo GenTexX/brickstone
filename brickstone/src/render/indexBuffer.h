@@ -7,8 +7,8 @@ namespace bs {
 
 	class IndexBuffer {
 	private:
-		unsigned int id;
-		int count;
+		unsigned int m_ID;
+		int m_Count;
 
 	public:
 		IndexBuffer();

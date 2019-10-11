@@ -1,17 +1,13 @@
 #include <bspch.h>
 #include "FileHandler.h"
 
-FileHandler::FileHandler() {
+FileHandler::FileHandler() {}
 
-
-
-}
-
-FileHandler::FileHandler(const std::string& path, bool create) : _filename(path) {
+FileHandler::FileHandler(const std::string& path, bool create) : m_Filename(path) {
 	if (create) {
-		this->_file.open(path, std::fstream::out);
+		this->m_File.open(path, std::fstream::out);
 	} else {
-		this->_file.open(path, std::fstream::in | std::fstream::out);
+		this->m_File.open(path, std::fstream::in | std::fstream::out);
 	}
 
 }
@@ -19,28 +15,29 @@ FileHandler::FileHandler(const std::string& path, bool create) : _filename(path)
 FileHandler::~FileHandler() {
 
 
-	this->_file << std::fflush;
-	this->_file.close();
+	this->m_File << std::fflush;
+	this->m_File.close();
 
 }
 
 void FileHandler::setPath(const std::string& path) {
 
-	this->_file.close();
-	this->_filename = path;
-	this->_file.open(path, std::ios::in | std::ios::out);
+	this->m_File.close();
+	this->m_Filename = path;
+	this->m_File.open(path, std::ios::in | std::ios::out);
 
 }
 
+/* READ */
 std::string FileHandler::read() {
 
-	if (!this->_file.is_open()) return NULL;
+	if (!this->m_File.is_open()) return NULL;
 
 	std::stringstream content;
 
-	this->_file.seekg(std::ios::beg);
+	this->m_File.seekg(std::ios::beg);
 
-	content << this->_file.rdbuf();
+	content << this->m_File.rdbuf();
 	
 	return content.str();
 
@@ -48,18 +45,18 @@ std::string FileHandler::read() {
 
 std::string FileHandler::read(std::size_t beg, std::size_t end) {
 
-	if (!this->_file.is_open()) return "";
+	if (!this->m_File.is_open()) return "";
 	if (end < beg && end) return "";
 
-	this->_file.seekg(beg, std::ios::beg);
+	this->m_File.seekg(beg, std::ios::beg);
 	std::string content(end ? end - beg : end , ' ');
 
 	if (!end)
 		content = this->read();
 	else 
-		this->_file.read(&content[0], end - beg);
+		this->m_File.read(&content[0], end - beg);
 	
-	this->_file.seekg(std::ios::beg);
+	this->m_File.seekg(std::ios::beg);
 
 	return content;
 
@@ -67,11 +64,11 @@ std::string FileHandler::read(std::size_t beg, std::size_t end) {
 
 std::string FileHandler::readLine() {
 
-	if (!this->_file.is_open()) return "";
+	if (!this->m_File.is_open()) return "";
 
 	std::string line;
 
-	if (!(std::getline(this->_file, line))) {
+	if (!(std::getline(this->m_File, line))) {
 		return "\z";
 	}
 
@@ -79,25 +76,27 @@ std::string FileHandler::readLine() {
 
 }
 
+
+/* WRITE */
 void FileHandler::append(const std::string& str) {
 
-	if (!this->_file.is_open()) return;
+	if (!this->m_File.is_open()) return;
 
 
-	this->_file << str;
+	this->m_File << str;
 
 }
 
 void FileHandler::write(const std::string& str) {
 
-	if (!this->_file.is_open()) return;
+	if (!this->m_File.is_open()) return;
 
-	this->_file.close();
-	this->_file.open(this->_filename, std::ios::in | std::ios::out | std::ios::ate | std::ios::trunc);
+	this->m_File.close();
+	this->m_File.open(this->m_Filename, std::ios::in | std::ios::out | std::ios::ate | std::ios::trunc);
 
-	this->_file << str;
+	this->m_File << str;
 
-	this->_file.open(this->_filename, std::ios::in | std::ios::out);
+	this->m_File.open(this->m_Filename, std::ios::in | std::ios::out);
 
 
 

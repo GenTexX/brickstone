@@ -142,8 +142,8 @@ namespace bs {
 		mat4 result(1.0f);
 
 		float radAngle = toRad(angle);		//angle in radians
-		float s = (float) sin(radAngle);	//sinus		angle
-		float c = (float) cos(radAngle);	//cosinus	angle
+		float s = (float) sin(radAngle);	//sinus	angle
+		float c = (float) cos(radAngle);	//cosinus angle
 		float nc = 1.0f - c;				//not cosinus = 1 - cosinus
 
 		result.elements[0 + 0 * 4] = axis.x * nc + c;
