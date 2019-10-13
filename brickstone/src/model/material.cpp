@@ -48,6 +48,7 @@ namespace bs {
 
 	void Material::loadDiffuseMap(const std::string& path) {
 		this->m_DiffuseMap.loadTexture(path, 0);
+		this->m_DiffuseMap.setType(DIFFUSE_MAP);
 		m_UseDiffuseMap = true;
 	}
 

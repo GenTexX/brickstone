@@ -7,7 +7,6 @@
 #include <application/application.h>
 #include <logging/log.h>
 #include <window/window.h>
-#include <model/object.h>
 #include <scene/camera.h>
 #include <model/material.h>
 #include <model/texture.h>

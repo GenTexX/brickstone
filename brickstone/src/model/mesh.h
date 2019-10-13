@@ -21,11 +21,11 @@ namespace bs {
 		void setupMesh();
 
 	public:
-		std::vector<vertex> vertices;
-		std::vector<unsigned int> indices;
-		std::vector<Texture> textures;
+		std::vector<vertex> m_Vertices;
+		std::vector<unsigned int> m_Indices;
+		Material* m_Material;
 
-		Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+		Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, Material *material);
 		~Mesh();
 
 		void draw(Shader shader);

@@ -15,4 +15,3 @@
 #include <shader/shader.h>
 #include <string/stringFormatting.h>
 #include <model/texture.h>
-#include <model/object.h>

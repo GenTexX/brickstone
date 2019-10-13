@@ -24,12 +24,13 @@ namespace bs {
 
 	}
 
-	Mesh bs::Model::processMesh(aiMesh* mesh, const aiScene* scene)
+	Mesh* bs::Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 
 		std::vector<vertex> vertices;
 		std::vector<unsigned int> indices;
 		std::vector<Texture> textures;
+		Material* mat = new Material();
 
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -72,34 +73,66 @@ namespace bs {
 		{
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 
-			std::vector<Texture> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, DIFFUSE_MAP);
-			textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+			*mat = this->loadMaterial(material);
+			
 
-			std::vector<Texture> specularMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, SPECULAR_MAP);
-			textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-
+			std::vector<std::string> diffuseMaps = this->loadMaterialTextures(material, aiTextureType_DIFFUSE, DIFFUSE_MAP);
+			if (diffuseMaps.size() != 0)
+			{
+				mat->loadDiffuseMap(diffuseMaps[0]);
+			}
+			
+			std::vector<std::string> specularMaps = this->loadMaterialTextures(material, aiTextureType_SPECULAR, DIFFUSE_MAP);
+			if (specularMaps.size() != 0)
+			{
+				mat->loadSpecularMap(specularMaps[0]);
+			}
+			
 		}
 
-		return Mesh(vertices, indices, textures);
+		return new Mesh(vertices, indices, mat);
 
 	}
 
-	std::vector<Texture> bs::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name)
+	std::vector<std::string> bs::Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name)
 	{
 
-		std::vector<Texture> textures;
+		std::vector<std::string> texturePaths;
 
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++) {
 
 			aiString str;
 			mat->GetTexture(type, i, &str);
-			Texture texture(std::string(str.C_Str()));
-			texture.setType(name);
-			textures.push_back(texture);
+			std::string t1 = this->m_Directory + "/" + std::string(str.C_Str());
+			texturePaths.push_back(t1);
 
 		}
 	
-		return textures;
+		return texturePaths;
+
+	}
+
+	Material Model::loadMaterial(aiMaterial* mat) {
+
+		aiColor3D color(0.0f, 0.0f, 0.0f);
+
+		mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+		vec3 diffuse(color.r, color.g, color.b);
+		diffuse *= 0.8f;
+		
+		//mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		vec3 ambient(color.r, color.g, color.b);
+		ambient *= 1.2f;
+
+		mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+		vec3 specular(color.r, color.g, color.b);
+
+
+		float shininess;
+		mat->Get(AI_MATKEY_SHININESS, shininess);
+		shininess /= 10;
+
+		return Material(diffuse, ambient, specular, shininess);
 
 	}
 
@@ -107,7 +140,7 @@ namespace bs {
 
 
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate/* | aiProcess_FlipUVs*/);
 		
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
 			Log::error("Failed to load: {}", path);
@@ -124,7 +157,7 @@ namespace bs {
 	void Model::draw(Shader shader) {
 
 		for (unsigned int i = 0; i < m_Meshes.size(); i++)
-			this->m_Meshes[i].draw(shader);
+			this->m_Meshes[i]->draw(shader);
 
 	}
 

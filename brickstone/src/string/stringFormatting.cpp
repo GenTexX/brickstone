@@ -1,5 +1,5 @@
 #include <bspch.h>
-#include "StringFormatting.h"
+#include "stringFormatting.h"
 
 namespace bs {
 

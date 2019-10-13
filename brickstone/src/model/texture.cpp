@@ -72,7 +72,6 @@ namespace bs {
 
 		glActiveTexture(GL_TEXTURE0 + this->slot);
 		glBindTexture(GL_TEXTURE_2D, this->id);
-		Log::info("bound Texture: {}", this->slot);
 
 	}
 

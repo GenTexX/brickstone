@@ -11,13 +11,14 @@ namespace bs {
 	class Model {
 
 	private:
-		std::vector<Mesh> m_Meshes;
+		std::vector<Mesh*> m_Meshes;
 		std::string m_Directory;
 
 		void loadModel(std::string path);
 		void processNode(aiNode* node, const aiScene* scene);
-		Mesh processMesh(aiMesh* mesh, const aiScene* scene);
-		std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name);
+		Mesh* processMesh(aiMesh* mesh, const aiScene* scene);
+		std::vector<std::string> loadMaterialTextures(aiMaterial* mat, aiTextureType type, TextureType name);
+		Material loadMaterial(aiMaterial* mat);
 
 	public:
 		Model(const char* path);

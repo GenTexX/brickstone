@@ -3,47 +3,19 @@
 
 namespace bs {
 
-	Mesh::Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-		 : vertices(vertices), indices(indices), textures(textures) {
+	Mesh::Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, Material *material)
+		 : m_Vertices(vertices), m_Indices(indices), m_Material(material) {
 
 		this->setupMesh();
 	}
 
-	Mesh::~Mesh(){}
+	Mesh::~Mesh() { delete this->m_Material; }
 
 	void Mesh::draw(Shader shader) {
-		unsigned int diffuseNr = 1;
-		unsigned int specularNr = 1;
-	
-		for (int i = 0; i < this->textures.size(); i++) {
-
-			glActiveTexture(GL_TEXTURE0 + 1);
-
-			std::string number;
-			TextureType t = this->textures[i].getType();
-
-			switch (t) {
-			case DIFFUSE_MAP:
-				number = std::to_string(diffuseNr++);
-				shader.setUniform1i(("material.diffuseMap." + number).c_str(), i);
-				break;
-
-			case SPECULAR_MAP:
-				number = std::to_string(specularNr++);
-				shader.setUniform1i(("material.specularMap." + number).c_str(), i);
-				break;
-
-			default:
-				break;
-			}
-
-			this->textures[i].setSlot(i);
-			this->textures[i].bind();
-
-		}
-
+		
+		shader.setUniformMaterial(*m_Material);
 		glBindVertexArray(this->vao);
-		glDrawElements(GL_TRIANGLES, (GLsizei) this->indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (GLsizei) this->m_Indices.size(), GL_UNSIGNED_INT, 0);
 
 	}
 
@@ -56,10 +28,10 @@ namespace bs {
 		glBindVertexArray(this->vao);
 		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
 
-		glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(vertex), &(this->vertices[0]), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, this->m_Vertices.size() * sizeof(vertex), &(this->m_Vertices[0]), GL_STATIC_DRAW);
 		
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(unsigned int), &(this->indices[0]), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_Indices.size() * sizeof(unsigned int), &(this->m_Indices[0]), GL_STATIC_DRAW);
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) 0);

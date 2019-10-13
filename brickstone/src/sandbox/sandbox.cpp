@@ -18,12 +18,9 @@ void Sandbox::init() {
 void Sandbox::run() {
 
 
-	glClearColor(0.3f, 0.2f, 0.8f, 1.0f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	bs::Object cube;
-	//cube.readFile("src/res/monkey.obj");
+	glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
+	//glEnable(GL_BLEND);
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	/* create matrices */
 	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0f / 9.0f, 0.01f, 300.0f);
@@ -36,7 +33,8 @@ void Sandbox::run() {
 	//m.loadDiffuseMap("src/res/bricks.png");
 	//m.loadSpecularMap("src/res/bricks.png");
 
-	bs::Model model("src/res/terrain.obj");
+	bs::Model dino("src/res/elephant/elephant.obj");
+	bs::Model lion("src/res/lion/lion.obj");
 
 	/* set shader */
 	bs::Shader s;
@@ -48,16 +46,14 @@ void Sandbox::run() {
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
 	s.setUniformMat4("u_View", view);
-	s.setUniformMaterial(m);
 	
 	glEnable(GL_DEPTH_TEST);
 
-	cube.vao.unmap();
 
 	bs::Camera cam;
 
 	cam.x = 0.0f;
-	cam.y = 2.0f;
+	cam.y = 0.0f;
 	cam.z = 0.0f;
 
 	float f = 0.7f;
@@ -80,7 +76,7 @@ void Sandbox::run() {
 				s.setUniformMat4("u_Projection", proj);
 			}
 
-			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 3.0f, "%.1f");
+			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 15.0f, "%.1f");
 
 			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 			ImGui::End();
@@ -88,20 +84,21 @@ void Sandbox::run() {
 
 
 		bs::Renderer::clear();
-
-		rot = bs::mat4::translation(bs::vec3(0.0f, 0.0f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
-		s.setUniformMat4("u_Model", rot);
-
-		angle += angle >= 360 ? f : (f-360);
-
 		
-
 		view = cam.getViewMatrix();
-
 		s.setUniformMat4("u_View", view);
+	
+		rot = bs::mat4::translation(bs::vec3(-2.0f, -1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
+		s.setUniformMat4("u_Model", rot);
+		dino.draw(s);
 
-		model.draw(s);
+		rot = bs::mat4::translation(bs::vec3(2.0f, -1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
+		s.setUniformMat4("u_Model", rot);
+		lion.draw(s);
 
+
+		angle += angle < 360 ? f : (f - 360);
+		bs::Log::trace("Angle {}", angle);
 		//bs::Renderer::draw(s, cube.vao, );
 
 		ImGui_ImplSDL2_ProcessEvent(&(bs::Window::event));
