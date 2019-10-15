@@ -4,7 +4,7 @@
 namespace bs {
 
 	Mesh::Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, Material *material)
-		 : m_Vertices(vertices), m_Indices(indices), m_Material(material) {
+		 : m_Vertices(vertices), m_Indices(indices), m_Material(material), m_VAO(), m_IBO() {
 
 		this->setupMesh();
 	}
@@ -14,33 +14,30 @@ namespace bs {
 	void Mesh::draw(Shader shader) {
 		
 		shader.setUniformMaterial(*m_Material);
-		glBindVertexArray(this->vao);
+		this->m_VAO.bind();
 		glDrawElements(GL_TRIANGLES, (GLsizei) this->m_Indices.size(), GL_UNSIGNED_INT, 0);
 
 	}
 
 	void Mesh::setupMesh() {
 
-		glGenVertexArrays(1, &(this->vao));
-		glGenBuffers(1, &(this->vbo));
-		glGenBuffers(1, &(this->ebo));
+		//set Vertices
+		this->m_VAO.bind();
+		this->m_VAO.setData(&(this->m_Vertices[0]).position.x, this->m_Vertices.size() * 8);
 
-		glBindVertexArray(this->vao);
-		glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
+		//set Indices
+		this->m_IBO.bind();
+		this->m_IBO.setIndices(&(this->m_Indices[0]), this->m_Indices.size());
+		
+		//Positions
+		this->m_VAO.setVertexAttrib(0, 0, 3, sizeof(vertex) / sizeof(float), 0);
 
-		glBufferData(GL_ARRAY_BUFFER, this->m_Vertices.size() * sizeof(vertex), &(this->m_Vertices[0]), GL_STATIC_DRAW);
-		
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->m_Indices.size() * sizeof(unsigned int), &(this->m_Indices[0]), GL_STATIC_DRAW);
+		//NormalVectors
+		this->m_VAO.setVertexAttrib(1, 1, 3, sizeof(vertex) / sizeof(float), offsetof(vertex, normal) / sizeof(float));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) 0);
-		
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) offsetof(vertex, normal));
-		
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(vertex), (void*) offsetof(vertex, texCoord));
+		//TextureCoordinates
+		this->m_VAO.setVertexAttrib(2, 2, 2, sizeof(vertex) / sizeof(float), offsetof(vertex, texCoord) / sizeof(float));
+
 
 	}
 

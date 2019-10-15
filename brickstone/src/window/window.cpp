@@ -7,7 +7,7 @@ namespace bs {
 
 
 	Window::Window(const int& width, const int& height, const char* title, const int& x, const int& y, Uint32 flags)
-		: m_Width(width), m_Height(height), m_Title(title){
+		: m_Width(width), m_Height(height), m_Title(title), m_Keystate(0x0), m_MousePosX(0), m_MousePosY(0), m_MouseWheelDirection(0), m_MouseButtonState(0x0){
 
 		flags |= SDL_WINDOW_OPENGL;
 
@@ -231,47 +231,47 @@ namespace bs {
 	//callback execution
 	void Window::onWindowResize() {
 
-		if (this->cb_Resized) this->cb_Resized();
+		if (this->cb_Resized) this->cb_Resized(this);
 	}
 
 	void Window::onWindowMove() {
 
-		if (this->cb_Moved) this->cb_Moved();
+		if (this->cb_Moved) this->cb_Moved(this);
 	}
 
 	void Window::onWindowMaximize() {
 
-		if (this->cb_Maximized) this->cb_Maximized();
+		if (this->cb_Maximized) this->cb_Maximized(this);
 
 	}
 
 	void Window::onWindowMinimize() {
 
-		if (this->cb_Minimized) this->cb_Minimized();
+		if (this->cb_Minimized) this->cb_Minimized(this);
 
 	}
 
 	void Window::onWindowHide() {
 
-		if (this->cb_Hidden) this->cb_Hidden();
+		if (this->cb_Hidden) this->cb_Hidden(this);
 
 	}
 
 	void Window::onWindowExpose() {
 
-		if (this->cb_Exposed) this->cb_Exposed();
+		if (this->cb_Exposed) this->cb_Exposed(this);
 
 	}
 
 	void Window::onWindowEnter() {
 
-		if (this->cb_Entered) this->cb_Entered();
+		if (this->cb_Entered) this->cb_Entered(this);
 
 	}
 
 	void Window::onWindowLeave() {
 
-		if (this->cb_Left) this->cb_Left();
+		if (this->cb_Left) this->cb_Left(this);
 
 	}
 
@@ -281,7 +281,7 @@ namespace bs {
 
 		this->m_MouseButtonState |= (1ULL << key);
 
-		if (this->cb_MouseButtonDown) this->cb_MouseButtonDown();
+		if (this->cb_MouseButtonDown) this->cb_MouseButtonDown(this);
 	
 	}
 	void Window::onMouseButtonUp(SDL_MouseButtonEvent mousecode) {
@@ -290,7 +290,7 @@ namespace bs {
 
 		this->m_MouseButtonState &= ~(1ULL << key);
 
-		if (this->cb_MouseButtonUp) this->cb_MouseButtonUp();
+		if (this->cb_MouseButtonUp) this->cb_MouseButtonUp(this);
 	
 	}
 	
@@ -299,7 +299,7 @@ namespace bs {
 		this->m_MousePosX = mousecode.x;
 		this->m_MousePosY = mousecode.y;
 	
-		if (this->cb_MouseMotion) this->cb_MouseMotion();
+		if (this->cb_MouseMotion) this->cb_MouseMotion(this);
 	
 	}
 
@@ -307,7 +307,7 @@ namespace bs {
 	
 		this->m_MouseWheelDirection = mousecode.direction;
 
-		if (this->cb_MouseWheel) this->cb_MouseWheel();
+		if (this->cb_MouseWheel) this->cb_MouseWheel(this);
 	
 	}
 
@@ -317,7 +317,7 @@ namespace bs {
 
 		this->m_Keystate |= (1ULL << key);
 
-		if (this->cb_KeyDown) this->cb_KeyDown();
+		if (this->cb_KeyDown) this->cb_KeyDown(this);
 
 	}
 
@@ -327,7 +327,7 @@ namespace bs {
 
 		this->m_Keystate &= ~(1ULL << key);
 
-		if (this->cb_KeyUp) this->cb_KeyUp();
+		if (this->cb_KeyUp) this->cb_KeyUp(this);
 
 	}
 

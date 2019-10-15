@@ -1,9 +1,13 @@
 #include <bspch.h>
 #include "sandbox.h"
 
+void onClick(void*);
+
 void Sandbox::init() {
 
 	this->w = new bs::Window(1600, 800);
+
+	this->w->setKeyDownCallback(onClick);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -13,15 +17,17 @@ void Sandbox::init() {
 	ImGui_ImplSDL2_InitForOpenGL(this->w->getWindow(), this->w->getContext());
 	ImGui_ImplOpenGL3_Init("#version 430");
 
+	//FaceCulling
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glFrontFace(GL_CCW);
+
 }
 
 void Sandbox::run() {
 
-
 	glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
-	//glEnable(GL_BLEND);
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
 	/* create matrices */
 	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0f / 9.0f, 0.01f, 300.0f);
 	bs::mat4 view = bs::mat4::rotation(20.0f, bs::vec3(0.0, 0.0, 0.0));
@@ -30,11 +36,7 @@ void Sandbox::run() {
 
 	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.1f, 0.1f, 0.1f), 2);
 
-	//m.loadDiffuseMap("src/res/bricks.png");
-	//m.loadSpecularMap("src/res/bricks.png");
-
-	bs::Model dino("src/res/elephant/elephant.obj");
-	bs::Model lion("src/res/lion/lion.obj");
+	bs::Model dino("src/res/untitled.obj");
 
 	/* set shader */
 	bs::Shader s;
@@ -45,13 +47,10 @@ void Sandbox::run() {
 	s.setUniform3f("u_LightColor", bs::vec3(1.0f, 1.0f, 1.0f));
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
-	s.setUniformMat4("u_View", view);
 	
 	glEnable(GL_DEPTH_TEST);
 
-
 	bs::Camera cam;
-
 	cam.x = 0.0f;
 	cam.y = 0.0f;
 	cam.z = 0.0f;
@@ -62,14 +61,13 @@ void Sandbox::run() {
 
 	while (!this->w->shouldClose()) {
 		
-		//IMGUI
+		/*IMGUI*/
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplSDL2_NewFrame(this->w->getWindow());
 		ImGui::NewFrame();
 
 		{
 			ImGui::Begin("FOV");										            
-
 
 			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {           
 				proj = bs::mat4::perspective(fov, 16.0f / 9.0f, 0.01f, 100.0f);
@@ -88,25 +86,28 @@ void Sandbox::run() {
 		view = cam.getViewMatrix();
 		s.setUniformMat4("u_View", view);
 	
-		rot = bs::mat4::translation(bs::vec3(-2.0f, -1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
+		rot = bs::mat4::translation(bs::vec3(-2.0f, 1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
 		s.setUniformMat4("u_Model", rot);
 		dino.draw(s);
 
-		rot = bs::mat4::translation(bs::vec3(2.0f, -1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
-		s.setUniformMat4("u_Model", rot);
-		lion.draw(s);
-
-
 		angle += angle < 360 ? f : (f - 360);
-		bs::Log::trace("Angle {}", angle);
-		//bs::Renderer::draw(s, cube.vao, );
 
 		ImGui_ImplSDL2_ProcessEvent(&(bs::Window::event));
-		
 		ImGui::Render();
-
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		this->w->update();
 	}
+
+}
+
+void onClick(void* window) {
+
+	bs::Window* w = (bs::Window*) window;
+	if (w->m_Keystate & (uint64_t) (1<<bs::KeyCode::BSK_W)) {
+
+
+
+	}
+
 
 }

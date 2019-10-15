@@ -3,7 +3,7 @@
 #include <SDL_opengl.h>
 #include "keycode.h"
 
-typedef void(*callback_function)(void);
+typedef void(*callback_function)(void*);
 
 namespace bs {
 
@@ -15,12 +15,7 @@ namespace bs {
 		int m_Width, m_Height;
 		int m_PosX, m_PosY;
 		std::string m_Title;
-		uint64_t m_Keystate;
-		uint8_t m_MouseButtonState;
-		int m_MousePosX, m_MousePosY, m_MouseWheelDirection;
-
-
-
+		
 		callback_function cb_Resized = nullptr;
 		callback_function cb_Moved = nullptr;
 		callback_function cb_Minimized = nullptr;
@@ -59,6 +54,10 @@ namespace bs {
 
 
 	public:
+
+		uint64_t m_Keystate;
+		uint8_t m_MouseButtonState;
+		int m_MousePosX, m_MousePosY, m_MouseWheelDirection;
 		static SDL_Event event;
 		Window(const int& width = 1024,
 			const int& height = 768,
