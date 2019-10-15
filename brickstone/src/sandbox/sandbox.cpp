@@ -36,14 +36,15 @@ void Sandbox::run() {
 
 	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.1f, 0.1f, 0.1f), 2);
 
-	bs::Model dino("src/res/untitled.obj");
+	bs::Model plane("src/res/plane.obj");
+	bs::Terrain terrain = bs::Terrain(10.0f, 10.0f, 64, 64, 5.0f, 2.0f);
 
 	/* set shader */
 	bs::Shader s;
 	s.readSource("src/shader/basic.shader");
 	s.create();
 	s.bind();
-	s.setUniform3f("u_LightPosition", bs::vec3(1.0f, 0.5f, 0.0));
+	s.setUniform3f("u_LightPosition", bs::vec3(2.0f, 5.0f, 0.0f));
 	s.setUniform3f("u_LightColor", bs::vec3(1.0f, 1.0f, 1.0f));
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
@@ -76,6 +77,18 @@ void Sandbox::run() {
 
 			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 15.0f, "%.1f");
 
+			if (ImGui::SliderFloat("Width", &(terrain.m_Width), 1.0f, 15.0f, "%.1f"))
+				terrain.load();
+
+			if (ImGui::SliderFloat("Height", &(terrain.m_Height), 1.0f, 15.0f, "%.1f"))
+				terrain.load();
+
+			if (ImGui::SliderFloat("Hardness", &(terrain.m_Hardness), 1.0f, 100.0f, "%.1f"))
+				terrain.load();
+
+			if (ImGui::SliderFloat("TextureScale", &(terrain.m_TextureScale), 1.0f, 15.0f, "%.3f"))
+				terrain.load();
+
 			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 			ImGui::End();
 		}
@@ -86,9 +99,9 @@ void Sandbox::run() {
 		view = cam.getViewMatrix();
 		s.setUniformMat4("u_View", view);
 	
-		rot = bs::mat4::translation(bs::vec3(-2.0f, 1.5f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
+		rot = bs::mat4::translation(bs::vec3(0.0f, -0.7f, -5.0f)) * bs::mat4::rotation(angle, bs::vec3(0.0, 1.0, 0.0));
 		s.setUniformMat4("u_Model", rot);
-		dino.draw(s);
+		terrain.draw(s);
 
 		angle += angle < 360 ? f : (f - 360);
 
@@ -103,7 +116,7 @@ void Sandbox::run() {
 void onClick(void* window) {
 
 	bs::Window* w = (bs::Window*) window;
-	if (w->m_Keystate & (uint64_t) (1<<bs::KeyCode::BSK_W)) {
+	if (w->m_Keystate & (1ULL<<bs::KeyCode::BSK_W)) {
 
 
 

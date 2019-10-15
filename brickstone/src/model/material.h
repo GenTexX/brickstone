@@ -18,7 +18,7 @@ namespace bs {
 		float m_Shininess;
 
 	public:
-		Material(vec3 ambient = vec3(1.0f, 1.0f, 1.0f), vec3 diffuse = vec3(1.0f, 1.0f, 1.0f), vec3 specular = vec3(1.0f, 1.0f, 1.0f), float shininess = 32);
+		Material(vec3 ambient = vec3(1.0f, 1.0f, 1.0f), vec3 diffuse = vec3(1.0f, 1.0f, 1.0f), vec3 specular = vec3(0.3f, 0.3f, 0.3f), float shininess = 32);
 		~Material();
 
 		vec3& getAmbient();

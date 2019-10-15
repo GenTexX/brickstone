@@ -4,11 +4,11 @@
 namespace bs {
 
 	Material::Material(bs::vec3 ambient, bs::vec3 diffuse, bs::vec3 specular, float shininess) 
-		: m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shininess(shininess), m_UseDiffuseMap(false), m_UseSpecularMap(false) {
+		: m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shininess(shininess), m_UseDiffuseMap(false), m_UseSpecularMap(false), m_DiffuseMap("/", 10), m_SpecularMap("/", 10) {
 
 	}
 
-	Material::~Material() {
+	Material::~Material(){
 
 	}
 

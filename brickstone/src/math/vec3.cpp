@@ -289,6 +289,10 @@ namespace bs {
 
 	}
 
+	vec3 vec3::cross(const vec3& left, const vec3& right) {
+		return vec3(left.y * right.z - left.z * right.y, left.z * right.x - left.x * right.z, left.x * right.y - left.y * right.x);
+	}
+
 	float vec3::distance(const vec3& left, const vec3& right) {
 
 		return (left - right).magnitude();

@@ -42,4 +42,11 @@ namespace bs {
 
 	}
 
+	void VertexBuffer::deleteBuffer() {
+
+		glDeleteBuffers(1, &(this->m_ID));
+		glGenBuffers(1, &(this->m_ID));
+
+	}
+
 }

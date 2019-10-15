@@ -11,6 +11,7 @@
 #include <model/material.h>
 #include <model/texture.h>
 #include <model/model.h>
+#include <terrain/terrain.h>
 
 class Sandbox : public bs::Application {
 

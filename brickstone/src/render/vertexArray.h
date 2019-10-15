@@ -25,6 +25,7 @@ namespace bs {
 		void unmap();
 		void bind();
 		void unbind();
+		void deleteBuffer();
 
 		float& operator[](const int& index);
 

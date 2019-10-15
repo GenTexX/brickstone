@@ -1,3 +1,5 @@
+#pragma once
+
 #include <math/maths.h>
 #include <shader/shader.h>
 #include <model/texture.h>
@@ -16,20 +18,21 @@ namespace bs {
 	class Mesh {
 
 	private:
-		std::vector<vertex> m_Vertices;
-		std::vector<unsigned int> m_Indices;
 		VertexArray m_VAO;
 		IndexBuffer m_IBO;
 
-		void setupMesh();
 
 	public:
+		std::vector<vertex> m_Vertices;
+		std::vector<unsigned int> m_Indices;
 		Material* m_Material;
 
+		Mesh();
 		Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, Material *material);
 		~Mesh();
 
 		void draw(Shader shader);
+		void setupMesh();
 
 	};
 

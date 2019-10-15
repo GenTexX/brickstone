@@ -69,6 +69,7 @@ namespace bs {
 		friend std::ostream& operator<<(std::ostream& stream, vec3& vector);
 
 		static float dot(const vec3& left, const vec3& right);
+		static vec3 cross(const vec3& left, const vec3& right);
 		static float distance(const vec3& left, const vec3& right);
 		static float sqrDistance(const vec3& left, const vec3& right);
 		static vec3 lerp(const vec3& left, const vec3& right, const float& t);

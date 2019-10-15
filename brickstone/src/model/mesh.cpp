@@ -2,7 +2,9 @@
 #include "mesh.h"
 
 namespace bs {
-
+	Mesh::Mesh()
+	{
+	}
 	Mesh::Mesh(std::vector<vertex> vertices, std::vector<unsigned int> indices, Material *material)
 		 : m_Vertices(vertices), m_Indices(indices), m_Material(material), m_VAO(), m_IBO() {
 
@@ -20,6 +22,7 @@ namespace bs {
 	}
 
 	void Mesh::setupMesh() {
+
 
 		//set Vertices
 		this->m_VAO.bind();

@@ -18,6 +18,7 @@ namespace bs {
 		float* map();
 		void unmap();
 		void bind();
+		void deleteBuffer();
 
 	};
 

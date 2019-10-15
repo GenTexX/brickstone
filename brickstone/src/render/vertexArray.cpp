@@ -66,6 +66,12 @@ namespace bs {
 
 	}
 
+	void VertexArray::deleteBuffer() {
+
+		this->m_Vbo->deleteBuffer();
+
+	}
+
 	float& VertexArray::operator[](const int& index) {
 
 		return m_Buffer[index];
