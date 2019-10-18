@@ -4,6 +4,7 @@ configuration: Release
 
 build_script:
   - generate.bat
+  - msbuild brickstone.sln
 
 pull_requests:  
   do_not_increment_build_number: true
