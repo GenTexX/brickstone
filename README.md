@@ -1,6 +1,6 @@
 # BrickStone
 | Branch | CI/CD                                                                                                                                        |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------|
-| master | [![Build status](https://ci.appveyor.com/api/projects/status/1l6hewqf1i265it3?svg=true)](https://ci.appveyor.com/project/Andi1603/easyparse) |
+| master | [![Build status](https://ci.appveyor.com/api/projects/status/8vq5b960vdugelbn?svg=true)](https://ci.appveyor.com/project/GenTexX/brickstone) |
 
 BrickStone Game Engine
