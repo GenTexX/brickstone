@@ -26,11 +26,11 @@ namespace bs {
 
 		//set Vertices
 		this->m_VAO.bind();
-		this->m_VAO.setData(&(this->m_Vertices[0]).position.x, this->m_Vertices.size() * 8);
+		this->m_VAO.setData(&(this->m_Vertices[0]).position.x, (const unsigned int) this->m_Vertices.size() * 8);
 
 		//set Indices
 		this->m_IBO.bind();
-		this->m_IBO.setIndices(&(this->m_Indices[0]), this->m_Indices.size());
+		this->m_IBO.setIndices(&(this->m_Indices[0]), (int)this->m_Indices.size());
 		
 		//Positions
 		this->m_VAO.setVertexAttrib(0, 0, 3, sizeof(vertex) / sizeof(float), 0);

@@ -3,7 +3,7 @@
 
 namespace bs {
 
-	Terrain::Terrain(float width, float height, int countWidth, int countHeight, float hardness, float textureScale) {
+	Terrain::Terrain(float width, float height, int countWidth, int countHeight, float hardness, float textureScale, float noiseFrequency) {
 
 		this->m_Width = width;
 		this->m_Height = height;
@@ -11,12 +11,13 @@ namespace bs {
 		this->m_CountHeight = countHeight;
 		this->m_Hardness = hardness;
 		this->m_TextureScale = textureScale;
+		this->m_NoiseFrequency = noiseFrequency;
 
-		m_Noise.SetNoiseType(FastNoise::SimplexFractal);
-		m_Noise.SetFrequency(0.04f);
+		this->m_Noise.SetNoiseType(FastNoise::PerlinFractal);
+		this->m_Noise.SetFrequency(m_NoiseFrequency);
 		
-		Material* mat = new Material(vec3(0.1f, 0.2f, 0.1f), vec3(0.2f, 0.4f, 0.2f), vec3(0.01f, 0.01f, 0.02f), 32.0f);
-		mat->loadDiffuseMap("src/res/rock.png");
+		Material* mat = new Material(vec3(0.2f, 0.2f, 0.2f), vec3(0.4f, 0.4f, 0.4f), vec3(0.1f, 0.1f, 0.1f), 32.0f);
+		mat->loadDiffuseMap("src/res/grass.png");
 		this->m_Mesh.m_Material = mat;
 		
 		this->load();
@@ -32,6 +33,8 @@ namespace bs {
 	}
 
 	void Terrain::load() {
+
+		this->m_Noise.SetFrequency(this->m_NoiseFrequency);
 
 		float resolutionW = (this->m_Width) / (this->m_CountWidth);
 		float resolutionH = (this->m_Height) / (this->m_CountHeight);
@@ -49,6 +52,7 @@ namespace bs {
 
 		for (size_t i = 0; i < (size_t)m_CountHeight - 1; i++)
 		{
+
 			for (size_t j = 0; j < (size_t)m_CountWidth - 1; j++)
 			{
 				vec3 pos1, pos2, pos3, pos4;
@@ -74,8 +78,6 @@ namespace bs {
 
 				float textureCoordinateY = (i / (float)this->m_CountHeight) * m_TextureScale;
 				float textureCoordinateX = (j / (float)this->m_CountWidth) * m_TextureScale;
-					
-				+(1.0f / m_CountWidth) * m_TextureScale;
 
 				v1.texCoord = vec2(textureCoordinateX, textureCoordinateY);
 				v2.texCoord = vec2(textureCoordinateX, textureCoordinateY + (1.0f / m_CountHeight) * m_TextureScale);

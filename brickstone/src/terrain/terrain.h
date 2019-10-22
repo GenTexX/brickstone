@@ -1,7 +1,6 @@
 #pragma once
 #include <shader/shader.h>
 #include <model/mesh.h>
-#include "noiseMap.h"
 #include "FastNoise.h"
 
 namespace bs {
@@ -19,8 +18,9 @@ namespace bs {
 		int m_CountHeight;
 		float m_Hardness;
 		float m_TextureScale;
+		float m_NoiseFrequency;
 
-		Terrain(float width, float height, int countWidth, int countHeight, float hardness, float textureScale = 1.0f);
+		Terrain(float width, float height, int countWidth, int countHeight, float hardness, float textureScale = 1.0f, float noiseFrequency = 0.03);
 		~Terrain();
 
 		void draw(Shader shader);

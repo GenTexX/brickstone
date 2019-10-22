@@ -5,8 +5,8 @@ void onClick(void*);
 
 void Sandbox::init() {
 
-	this->w = new bs::Window(1920, 1080, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FULLSCREEN);
 
+	this->w = new bs::Window(1920, 1080, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FULLSCREEN);
 
 	this->w->setKeyDownCallback(onClick);
 
@@ -68,12 +68,12 @@ void Sandbox::run() {
 	
 	glEnable(GL_DEPTH_TEST);
 
-	bs::Camera cam;
+	bs::camera cam;
 	cam.x = 0.0f;
 	cam.y = 0.0f;
 	cam.z = 0.0f;
 
-	float f = 0.7f;
+	float f = 0.0f;
 	float angle = 0.0;
 	float fov = 70.0;
 

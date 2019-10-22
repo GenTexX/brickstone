@@ -4,7 +4,6 @@
 #include <entrypoint/entrypoint.h>
 #include <logging/log.h>
 #include <window/window.h>
-#include <file/fileHandler.h>
 #include <imgui/imgui.h>
 #include <math/maths.h>
 #include <render/indexBuffer.h>

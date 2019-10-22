@@ -4,12 +4,12 @@
 namespace bs {
 
 
-	struct Camera {
+	struct camera {
 
 		float x, y, z;
 
-		Camera();
-		~Camera();
+		camera();
+		~camera();
 
 		mat4 getViewMatrix();
 
