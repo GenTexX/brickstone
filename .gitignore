@@ -331,3 +331,7 @@ ASALocalRun/
 
 # RESOURCES
 brickstone/src/res/*
+
+# PREJECT FILES
+brickstone/brickstone.vcxproj.filters
+brickstone/brickstone.vcxproj
