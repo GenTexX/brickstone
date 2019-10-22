@@ -5,7 +5,6 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <file/FileHandler.h>
 #include <math/maths.h>
 #include <model/material.h>
 #include <logging/log.h>
@@ -14,7 +13,7 @@ namespace bs {
 
 	class Shader {
 	private:
-
+		
 		unsigned int m_VertexId;
 		unsigned int m_TessControlId;
 		unsigned int m_TessEvaluationId;

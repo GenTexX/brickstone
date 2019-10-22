@@ -172,7 +172,7 @@ namespace bs {
 
 		if (!this->m_Program) {
 
-			std::cout << "Failed to create shader program" << std::endl;
+			Log::error("Failed to create Shader!");
 			return -1;
 
 		}
@@ -213,8 +213,6 @@ namespace bs {
 		if (!this->m_FragmentSrc.empty()) this->m_FragmentId = glCreateShader(GL_FRAGMENT_SHADER);
 
 
-		
-
 		/* compile shader */
 
 		/************************************/
@@ -237,7 +235,7 @@ namespace bs {
 				int length;
 				glGetShaderiv(this->m_VertexId, GL_INFO_LOG_LENGTH, &length);
 
-				char* msg = (char*)alloca(length * sizeof(char));
+				char* msg = (char*) _malloca(length * sizeof(char));
 				glGetShaderInfoLog(this->m_VertexId, length, &length, msg);
 
 				std::cout << "Failed to compile Vertex Shader" << std::endl;
@@ -269,7 +267,7 @@ namespace bs {
 				int length;
 				glGetShaderiv(this->m_TessControlId, GL_INFO_LOG_LENGTH, &length);
 
-				char* msg = (char*)alloca(length * sizeof(char));
+				char* msg = (char*) _malloca(length * sizeof(char));
 				glGetShaderInfoLog(this->m_TessControlId, length, &length, msg);
 
 				std::cout << "Failed to compile tess control Shader" << std::endl;
@@ -301,7 +299,7 @@ namespace bs {
 				int length;
 				glGetShaderiv(this->m_TessEvaluationId, GL_INFO_LOG_LENGTH, &length);
 
-				char* msg = (char*)alloca(length * sizeof(char));
+				char* msg = (char*) _malloca(length * sizeof(char));
 				glGetShaderInfoLog(this->m_TessEvaluationId, length, &length, msg);
 
 				std::cout << "Failed to compile tess evaluation Shader" << std::endl;
@@ -333,7 +331,7 @@ namespace bs {
 				int length;
 				glGetShaderiv(this->m_GeometryId, GL_INFO_LOG_LENGTH, &length);
 
-				char* msg = (char*)alloca(length * sizeof(char));
+				char* msg = (char*) _malloca(length * sizeof(char));
 				glGetShaderInfoLog(this->m_GeometryId, length, &length, msg);
 
 				std::cout << "Failed to compile tess geometry Shader" << std::endl;
@@ -365,7 +363,7 @@ namespace bs {
 				int length;
 				glGetShaderiv(this->m_FragmentId, GL_INFO_LOG_LENGTH, &length);
 
-				char* msg = (char*)alloca(length * sizeof(char));
+				char* msg = (char*) _malloca(length * sizeof(char));
 				glGetShaderInfoLog(this->m_FragmentId, length, &length, msg);
 
 				std::cout << "Failed to compile Fragment Shader" << std::endl;

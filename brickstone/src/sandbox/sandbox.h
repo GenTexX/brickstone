@@ -12,6 +12,7 @@
 #include <model/texture.h>
 #include <model/model.h>
 #include <terrain/terrain.h>
+#include <math/maths.h>
 
 class Sandbox : public bs::Application {
 

@@ -418,7 +418,7 @@ class fp {
         f == implicit_bit ? fp((f << 2) - 1, e - 2) : fp((f << 1) - 1, e - 1);
     upper = fp((f << 1) + 1, e - 1);
     upper.normalize<1>();  // 1 is to account for the exponent shift above.
-    lower.f <<= lower.e - upper.e;
+    lower.f <<= (uint64_t)(lower.e - upper.e);
     lower.e = upper.e;
   }
 };
@@ -456,7 +456,7 @@ FMT_FUNC fp operator*(fp x, fp y) {
 FMT_FUNC fp get_cached_power(int min_exponent, int& pow10_exponent) {
   const double one_over_log2_10 = 0.30102999566398114;  // 1 / log2(10)
   int index = static_cast<int>(
-      std::ceil((min_exponent + fp::significand_size - 1) * one_over_log2_10));
+      std::ceil((uint64_t)(min_exponent + fp::significand_size - 1) * one_over_log2_10));
   // Decimal exponent of the first (smallest) cached power of 10.
   const int first_dec_exp = -348;
   // Difference between 2 consecutive decimal exponents in cached powers of 10.
