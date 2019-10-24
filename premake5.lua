@@ -38,7 +38,7 @@ project "brickstone"
 	pchheader "bspch.h"
 	pchsource "brickstone/src/bspch.cpp"
 	
-	ignoredefaultlibraries { "libcmt.lib" }
+	--ignoredefaultlibraries { "libcmt.lib" }
 	
 	files
 	{
