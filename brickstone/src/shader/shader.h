@@ -8,7 +8,6 @@
 #include <math/maths.h>
 #include <model/material.h>
 #include <logging/log.h>
-#include <scene/light.h>
 
 namespace bs {
 
@@ -28,10 +27,6 @@ namespace bs {
 		std::string m_EvaluationSrc;
 		std::string m_GeometrySrc;
 		std::string m_FragmentSrc;
-
-		unsigned int m_DirectionalLightCount = 0;
-		unsigned int m_PointLightCount = 0;
-		unsigned int m_SpotLightCount = 0;
 
 		int compile();
 
@@ -57,10 +52,6 @@ namespace bs {
 		std::string& getTessEvaluationSource();
 		std::string& getGeometrySource();
 		std::string& getFragmentSource();
-
-		void addDirectionalLight(directionalLight light);
-		void addPointLight(pointLight light);
-		void addSpotLight(spotLight light);
 
 	};
 
