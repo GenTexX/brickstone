@@ -30,7 +30,7 @@ void Sandbox::run() {
 	glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
 	
 	/* create matrices */
-	bs::mat4 proj = bs::mat4::perspective(70.0, 16.0/9.0, 0.1, 100.0);
+	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0/9.0f, 0.1f, 100.0f);
 	bs::mat4 view = bs::mat4::rotation(20.0f, bs::vec3(0.0, 0.0, 0.0));
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));

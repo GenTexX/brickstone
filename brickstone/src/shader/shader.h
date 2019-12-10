@@ -8,12 +8,13 @@
 #include <math/maths.h>
 #include <model/material.h>
 #include <logging/log.h>
+#include <scene/light.h>
 
 namespace bs {
 
 	class Shader {
 	private:
-		
+
 		unsigned int m_VertexId;
 		unsigned int m_TessControlId;
 		unsigned int m_TessEvaluationId;
@@ -27,6 +28,10 @@ namespace bs {
 		std::string m_EvaluationSrc;
 		std::string m_GeometrySrc;
 		std::string m_FragmentSrc;
+
+		unsigned int m_DirectionalLightCount = 0;
+		unsigned int m_PointLightCount = 0;
+		unsigned int m_SpotLightCount = 0;
 
 		int compile();
 
