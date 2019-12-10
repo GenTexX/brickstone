@@ -172,7 +172,7 @@ namespace bs {
 
 		if (!this->m_Program) {
 
-			Log::error("Failed to create Shader!");
+			BS_CORE_ERROR("Failed to create Shader!");
 			return -1;
 
 		}
@@ -412,62 +412,6 @@ namespace bs {
 	std::string& Shader::getFragmentSource() {
 
 		return this->m_FragmentSrc;
-
-	}
-
-	void Shader::addDirectionalLight(directionalLight light, int index) {
-
-		int i = this->m_DirectionalLightCount;
-		this->m_DirectionalLightCount++;
-
-		if (index + 1) i = index;
-
-		this->setUniform3f(("u_DirLights[" + std::to_string(i) + "].direction").c_str(), light.m_Direction);
-		this->setUniform3f(("u_DirLights[" + std::to_string(i) + "].ambient").c_str(), light.m_Ambient);
-		this->setUniform3f(("u_DirLights[" + std::to_string(i) + "].diffuse").c_str(), light.m_Diffuse);
-		this->setUniform3f(("u_DirLights[" + std::to_string(i) + "].specular").c_str(), light.m_Specular);
-
-	}
-
-	void Shader::addPointLight(pointLight light, int index) {
-
-		int i = this->m_PointLightCount;
-		this->m_PointLightCount++;
-
-		if (index + 1) i = index;
-
-		this->setUniform3f(("u_PointLights[" + std::to_string(i) + "].position").c_str(), light.m_Position);
-
-		this->setUniform3f(("u_PointLights[" + std::to_string(i) + "].ambient").c_str(), light.m_Ambient);
-		this->setUniform3f(("u_PointLights[" + std::to_string(i) + "].diffuse").c_str(), light.m_Diffuse);
-		this->setUniform3f(("u_PointLights[" + std::to_string(i) + "].specular").c_str(), light.m_Specular);
-
-		this->setUniform1f(("u_PointLights[" + std::to_string(i) + "].constant").c_str(), light.m_Constant);
-		this->setUniform1f(("u_PointLights[" + std::to_string(i) + "].lin").c_str(), light.m_Linear);
-		this->setUniform1f(("u_PointLights[" + std::to_string(i) + "].quadratic").c_str(), light.m_Quadratic);
-
-	}
-
-	void Shader::addSpotLight(spotLight light, int index) {
-
-		int i = this->m_SpotLightCount;
-		this->m_SpotLightCount++;
-
-		if (index + 1) i = index;
-
-		this->setUniform3f(("u_SpotLights[" + std::to_string(i) + "].position").c_str(), light.m_Position);
-		this->setUniform3f(("u_SpotLights[" + std::to_string(i) + "].direction").c_str(), light.m_Direction);
-		
-		this->setUniform3f(("u_SpotLights[" + std::to_string(i) + "].ambient").c_str(), light.m_Ambient);
-		this->setUniform3f(("u_SpotLights[" + std::to_string(i) + "].diffuse").c_str(), light.m_Diffuse);
-		this->setUniform3f(("u_SpotLights[" + std::to_string(i) + "].specular").c_str(), light.m_Specular);
-
-		this->setUniform1f(("u_SpotLights[" + std::to_string(i) + "].constant").c_str(), light.m_Constant);
-		this->setUniform1f(("u_SpotLights[" + std::to_string(i) + "].lin").c_str(), light.m_Linear);
-		this->setUniform1f(("u_SpotLights[" + std::to_string(i) + "].quadratic").c_str(), light.m_Quadratic);
-
-		this->setUniform1f(("u_SpotLights[" + std::to_string(i) + "].innerCutOff").c_str(), light.innerCutOff);
-		this->setUniform1f(("u_SpotLights[" + std::to_string(i) + "].outerCutOff").c_str(), light.outerCutOff);
 
 	}
 
