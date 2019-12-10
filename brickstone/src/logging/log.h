@@ -1,27 +1,34 @@
 #pragma once
 
 #include <spdlog/spdlog.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
+
 
 namespace bs {
 
 	class Log {
 
 	private:
-		static std::shared_ptr<spdlog::logger> s_CoreLogger;
-		static std::shared_ptr<spdlog::logger> s_ClientLogger;
 
 	public:
-		static void init();
+		template <typename T>
+		static void trace(const char* t, const T args...) { spdlog::trace(t, args); }
+		static void trace(const char* t) { spdlog::trace(t); }
 
-		inline static std::shared_ptr<spdlog::logger>& getCoreLogger() { return s_CoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& getClientLogger() { return s_ClientLogger; }
+		template <typename T>
+		static void info(const char* i, const T args...) { spdlog::info(i, args); }
+		static void info(const char* i) { spdlog::info(i); }
+
+		template <typename T>
+		static void warn(const char* w, const T args...) { spdlog::warn(w, args); }
+		static void warn(const char* w) { spdlog::warn(w); }
+
+		template <typename T>
+		static void critical(const char* w, T args...) { spdlog::critical(w, args); }
+		static void critical(const char* w) { spdlog::critical(w); }
+		template <typename T>
+		static void error(const char* w, const T args...) { spdlog::error(w, args); }
+		static void error(const char* w) { spdlog::error(w); }
+
 	};
 
 }
-
-#define BS_CORE_TRACE(...)	::bs::Log::getCoreLogger()->trace(__VA_ARGS__)
-#define BS_CORE_INFO(...)	::bs::Log::getCoreLogger()->info(__VA_ARGS__)
-#define BS_CORE_WARN(...)	::bs::Log::getCoreLogger()->warn(__VA_ARGS__)
-#define BS_CORE_ERROR(...)	::bs::Log::getCoreLogger()->error(__VA_ARGS__)
-#define BS_CORE_FATAL(...)	::bs::Log::getCoreLogger()->fatal(__VA_ARGS__)

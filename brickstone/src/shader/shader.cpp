@@ -172,7 +172,7 @@ namespace bs {
 
 		if (!this->m_Program) {
 
-			BS_CORE_ERROR("Failed to create Shader!");
+			Log::error("Failed to create Shader!");
 			return -1;
 
 		}
