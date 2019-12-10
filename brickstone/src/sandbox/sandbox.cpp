@@ -6,20 +6,10 @@ void imguiLight(bs::pointLight& l, int index, bs::Shader s);
 
 void Sandbox::init() {
 
-<<<<<<< Updated upstream
-	this->w = new bs::Window(1600, 800);
-	this->w = new bs::Window(1920, 1080, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FULLSCREEN);
-=======
-
 	this->w = new bs::Window(1600, 900, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FOREIGN);
->>>>>>> Stashed changes
 
-<<<<<<< HEAD
-	this->w->setKeyDownCallback(onClick);
-=======
 
 	this->w->setMouseButtonDownCallback(onClick);
->>>>>>> parent of 97e6b8d... Revert "Revert "Revert "Merge branch 'lighting'"""
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -41,7 +31,7 @@ void Sandbox::run() {
 	glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
 	
 	/* create matrices */
-	bs::mat4 proj = bs::mat4::orthographic(-8, 8, -4.5, 4.5, 0, 1);
+	bs::mat4 proj = bs::mat4::perspective(70.0, 16.0/9.0, 0.1, 100.0);
 	bs::mat4 view = bs::mat4::rotation(20.0f, bs::vec3(0.0, 0.0, 0.0));
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
