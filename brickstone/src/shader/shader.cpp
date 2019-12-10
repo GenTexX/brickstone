@@ -192,7 +192,13 @@ namespace bs {
 		glGetProgramiv(this->m_Program, GL_VALIDATE_STATUS, &programValidation);
 		if (!programValidation) {
 
-			std::cout << "Shaderprogram validationfailed." << std::endl;
+		
+			int length;
+			glGetProgramiv(this->m_Program, GL_INFO_LOG_LENGTH, &length);
+
+			char* msg = (char*)_malloca(length * sizeof(char));
+			glGetProgramInfoLog(this->m_Program, length, &length, msg);
+			std::cout << &msg[0] << std::endl;
 
 		}
 
@@ -412,6 +418,44 @@ namespace bs {
 	std::string& Shader::getFragmentSource() {
 
 		return this->m_FragmentSrc;
+
+	}
+
+	void Shader::addDirectionalLight(directionalLight light) {
+
+		this->setUniform3f("u_Light.ambient", light.m_Ambient);
+		this->setUniform3f("u_Light.diffuse", light.m_Diffuse);
+		this->setUniform3f("u_Light.specular", light.m_Specular);
+		this->setUniform1i("u_Light.type", LightType::DirectionalLight);
+
+	}
+
+	void Shader::addPointLight(pointLight light) {
+
+		this->setUniform3f("u_Light.position", light.m_Position);
+
+		this->setUniform3f("u_Light.ambient", light.m_Ambient);
+		this->setUniform3f("u_Light.diffuse", light.m_Diffuse);
+		this->setUniform3f("u_Light.specular", light.m_Specular);
+		this->setUniform1f("u_Light.constant", light.m_Constant);
+		this->setUniform1f("u_Light.lin", light.m_Linear);
+		this->setUniform1f("u_Light.quadratic", light.m_Quadratic);
+		this->setUniform1i("u_Light.type", (int) LightType::PointLight);
+
+	}
+
+	void Shader::addSpotLight(spotLight light) {
+
+		this->setUniform3f("u_Light.position", light.m_Position);
+		this->setUniform3f("u_Light.direction", light.m_Direction);
+		
+		this->setUniform3f("u_Light.ambient", light.m_Ambient);
+		this->setUniform3f("u_Light.diffuse", light.m_Diffuse);
+		this->setUniform3f("u_Light.specular", light.m_Specular);
+
+		this->setUniform1f("u_Light.cutOff", light.cutOff);
+
+		this->setUniform1i("u_Light.type", (int) LightType::SpotLight);
 
 	}
 

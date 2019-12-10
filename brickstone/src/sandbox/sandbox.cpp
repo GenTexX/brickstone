@@ -8,7 +8,12 @@ void Sandbox::init() {
 	this->w = new bs::Window(1600, 800);
 	this->w = new bs::Window(1920, 1080, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FULLSCREEN);
 
+<<<<<<< HEAD
 	this->w->setKeyDownCallback(onClick);
+=======
+
+	this->w->setMouseButtonDownCallback(onClick);
+>>>>>>> parent of 97e6b8d... Revert "Revert "Revert "Merge branch 'lighting'"""
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -40,13 +45,29 @@ void Sandbox::run() {
 	bs::Model plane("src/res/plane.obj");
 	bs::Terrain terrain = bs::Terrain(10.0f, 10.0f, 64, 64, 5.0f, 2.0f);
 
+	bs::pointLight light;
+	light.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	light.m_Diffuse = bs::vec3(1.0f, 1.0f, 1.0f);
+	light.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+	light.m_Position = bs::vec3(0.0f, 3.4f, -5.0f);
+	light.m_Constant = 0.4f;
+	light.m_Linear = 0.09f;
+	light.m_Quadratic = 0.032f;
+
+	bs::spotLight spotlight;
+	spotlight.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Diffuse = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Position = bs::vec3(0.0f, 0.0f, 0.0f);
+	spotlight.m_Direction = bs::vec3(0.0f, -0.2f, -1.0f).normalized();
+	spotlight.cutOff = 0.2f;
+	
 	/* set shader */
 	bs::Shader s;
 	s.readSource("src/shader/basic.shader");
 	s.create();
 	s.bind();
-	s.setUniform3f("u_LightPosition", bs::vec3(2.0f, 5.0f, 0.0f));
-	s.setUniform3f("u_LightColor", bs::vec3(1.0f, 1.0f, 1.0f));
+	s.addSpotLight(spotlight);
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
 	
@@ -69,14 +90,7 @@ void Sandbox::run() {
 		ImGui::NewFrame();
 
 		{
-			ImGui::Begin("FOV");										            
-
-			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {           
-				proj = bs::mat4::perspective(fov, 16.0f / 9.0f, 0.01f, 100.0f);
-				s.setUniformMat4("u_Projection", proj);
-			}
-
-			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 15.0f, "%.1f");
+			ImGui::Begin("Terrain");
 
 			if (ImGui::SliderFloat("Width", &(terrain.m_Width), 1.0f, 15.0f, "%.1f"))
 				terrain.load();
@@ -84,11 +98,70 @@ void Sandbox::run() {
 			if (ImGui::SliderFloat("Height", &(terrain.m_Height), 1.0f, 15.0f, "%.1f"))
 				terrain.load();
 
-			if (ImGui::SliderFloat("Hardness", &(terrain.m_Hardness), 1.0f, 100.0f, "%.1f"))
+			if (ImGui::SliderInt("Count Width", &(terrain.m_CountWidth), 4, 128, "%.1f"))
+				terrain.load();
+
+			if (ImGui::SliderInt("Count Height", &(terrain.m_CountHeight), 4, 128, "%.1f"))
+				terrain.load();
+
+			if (ImGui::SliderFloat("Noise Frequence", &(terrain.m_NoiseFrequency), 0.0, 0.5, "%.5f"))
+				terrain.load();
+
+			if (ImGui::SliderFloat("Hardness", &(terrain.m_Hardness), 0.0f, 100.0f, "%.1f"))
 				terrain.load();
 
 			if (ImGui::SliderFloat("TextureScale", &(terrain.m_TextureScale), 1.0f, 15.0f, "%.3f"))
 				terrain.load();
+
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Light");
+
+			if (ImGui::ColorPicker3("Ambient", &(light.m_Ambient.x)))
+				s.addPointLight(light);
+
+			if (ImGui::ColorPicker3("Diffuse", &(light.m_Diffuse.x)))
+				s.addPointLight(light);
+
+			if (ImGui::ColorPicker3("Specular", &(light.m_Specular.x)))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("Constant", &(light.m_Constant), 0.0f, 1.0f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("Linear", &(light.m_Linear), 0.0f, 0.5f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("Quadratic", &(light.m_Quadratic), 0.0f, 0.1f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("posX", &(light.m_Position.x), -5.0f, 5.0f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("posY", &(light.m_Position.y), -5.0f, 5.0f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("posZ", &(light.m_Position.z), -10.0f, 1.0f, "%.3f"))
+				s.addPointLight(light);
+
+			if (ImGui::SliderFloat("cutOff", &(spotlight.cutOff), 0.0, 1.0f, "%.3f"))
+				s.addSpotLight(spotlight);
+
+			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
+			ImGui::End();
+		}
+
+		{
+			ImGui::Begin("Program");										            
+
+			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {           
+				proj = bs::mat4::perspective(fov, 16.0f / 9.0f, 0.01f, 100.0f);
+				s.setUniformMat4("u_Projection", proj);
+			}
+
+			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 15.0f, "%.1f");
 
 			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 			ImGui::End();
