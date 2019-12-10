@@ -5,6 +5,7 @@ namespace bs {
 
 	SDL_Event Window::event;
 
+
 	Window::Window(const int& width, const int& height, const char* title, const int& x, const int& y, Uint32 flags)
 		: m_Width(width), m_Height(height), m_Title(title), m_Keystate(0x0), m_MousePosX(0), m_MousePosY(0), m_MouseWheelDirection(0), m_MouseButtonState(0x0){
 
