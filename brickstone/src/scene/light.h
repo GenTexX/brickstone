@@ -35,9 +35,10 @@ namespace bs {
 
 	};
 
-	struct spotLight : public light {
+	struct spotLight : public pointLight {
 
-		float cutOff;
+		float innerCutOff;
+		float outerCutOff;
 
 	};
 
