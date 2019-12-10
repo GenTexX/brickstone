@@ -2,6 +2,7 @@
 #include "sandbox.h"
 
 void onClick(void*);
+void imguiLight(bs::pointLight& l, int index, bs::Shader s);
 
 void Sandbox::init() {
 
@@ -29,7 +30,7 @@ void Sandbox::run() {
 	glClearColor(0.5f, 0.4f, 0.8f, 1.0f);
 	
 	/* create matrices */
-	bs::mat4 proj = bs::mat4::perspective(70.0f, 16.0f / 9.0f, 0.01f, 300.0f);
+	bs::mat4 proj = bs::mat4::perspective(70.0, 16.0/9.0, 0.1, 100.0);
 	bs::mat4 view = bs::mat4::rotation(20.0f, bs::vec3(0.0, 0.0, 0.0));
 	bs::mat4 rot = bs::mat4::rotation(0.0f, bs::vec3(0.0, 0.0, 0.0));
 	view *= bs::mat4::translation(bs::vec3(0.0f, -7.0f, -15.0f));
@@ -37,15 +38,53 @@ void Sandbox::run() {
 	bs::Material m(bs::vec3(0.4f, 0.4f, 0.4f), bs::vec3(0.5f, 0.5f, 0.5f), bs::vec3(0.1f, 0.1f, 0.1f), 2);
 
 	bs::Model plane("src/res/plane.obj");
-	bs::Terrain terrain = bs::Terrain(10.0f, 10.0f, 64, 64, 5.0f, 2.0f);
+	bs::Terrain terrain = bs::Terrain(100.0f, 109.0f, 128, 128, 3.0f, 10.0f);
 
+	bs::directionalLight dirlight;
+	dirlight.m_Direction = bs::vec3(1.0f, -1.0f, 0.4f).normalized();
+	dirlight.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	dirlight.m_Diffuse = bs::vec3(0.2f, 0.2f, 0.2f);
+	dirlight.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+
+	bs::pointLight pointlight;
+	pointlight.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	pointlight.m_Diffuse = bs::vec3(1.0f, 1.0f, 1.0f);
+	pointlight.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+	pointlight.m_Position = bs::vec3(0.0f, 2.4f, -5.0f);
+	pointlight.m_Constant = 0.4f;
+	pointlight.m_Linear = 0.09f;
+	pointlight.m_Quadratic = 0.032f;
+
+	bs::pointLight pointlight2;
+	pointlight2.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	pointlight2.m_Diffuse = bs::vec3(0.2f, 0.1f, 0.2f);
+	pointlight2.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+	pointlight2.m_Position = bs::vec3(0.0f, 0.4f, -3.0f);
+	pointlight2.m_Constant = 0.12f;
+	pointlight2.m_Linear = 0.09f;
+	pointlight2.m_Quadratic = 0.022f;
+
+	bs::spotLight spotlight;
+	spotlight.m_Ambient = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Diffuse = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Specular = bs::vec3(1.0f, 1.0f, 1.0f);
+	spotlight.m_Position = bs::vec3(0.0f, 0.0f, 0.0f);
+	spotlight.m_Direction = bs::vec3(0.0f, -0.2f, -1.0f).normalized();
+	spotlight.innerCutOff = 0.2f;
+	spotlight.outerCutOff = 0.23f;
+	
 	/* set shader */
 	bs::Shader s;
 	s.readSource("src/shader/basic.shader");
 	s.create();
 	s.bind();
-	s.setUniform3f("u_LightPosition", bs::vec3(2.0f, 5.0f, 0.0f));
-	s.setUniform3f("u_LightColor", bs::vec3(1.0f, 1.0f, 1.0f));
+	s.addDirectionalLight(dirlight);
+	s.addPointLight(pointlight);
+	s.addPointLight(pointlight2);
+	s.addSpotLight(spotlight);
+	s.addSpotLight(spotlight);
+	s.addSpotLight(spotlight);
+	s.addSpotLight(spotlight);
 	s.setUniform3f("u_ViewPosition", bs::vec3(.0f, .0f, .0f));
 	s.setUniformMat4("u_Projection", proj);
 	
@@ -56,6 +95,7 @@ void Sandbox::run() {
 	cam.y = 0.0f;
 	cam.z = 0.0f;
 
+	int selectedLight = 0;
 	float f = 0.0f;
 	float angle = 0.0;
 	float fov = 70.0;
@@ -89,6 +129,24 @@ void Sandbox::run() {
 			if (ImGui::SliderFloat("TextureScale", &(terrain.m_TextureScale), 1.0f, 15.0f, "%.3f"))
 				terrain.load();
 
+
+			ImGui::End();
+		}
+
+		imguiLight(pointlight, 0, s);
+		imguiLight(pointlight2, 1, s);
+		
+
+		{
+			ImGui::Begin("Program");										            
+
+			if (ImGui::SliderFloat("FieldOfView", &fov, 30.0f, 140.0f)) {           
+				proj = bs::mat4::perspective(fov, 16.0f / 9.0f, 0.01f, 100.0f);
+				s.setUniformMat4("u_Projection", proj);
+			}
+
+			ImGui::SliderFloat("Rotationspeed", &f, 0.0f, 15.0f, "%.1f");
+
 			ImGui::Text("%.1f FPS", ImGui::GetIO().Framerate);
 			ImGui::End();
 		}
@@ -115,4 +173,45 @@ void Sandbox::run() {
 
 void onClick(void* window) {
 
+	bs::Window* w = (bs::Window*) window;
+	if (w->m_Keystate & (1ULL<<bs::KeyCode::BSK_W)) {
+
+
+
+	}
+
+
+}
+
+void imguiLight(bs::pointLight& l, int index, bs::Shader s) {
+	ImGui::Begin(("Light" + std::to_string(index)).c_str());
+
+	if (ImGui::ColorPicker3(("Ambient" + std::to_string(index)).c_str(), &(l.m_Ambient.x)))
+		s.addPointLight(l, index);
+
+	if (ImGui::ColorPicker3(("Diffuse" + std::to_string(index)).c_str(), &(l.m_Diffuse.x)))
+		s.addPointLight(l, index);
+
+	if (ImGui::ColorPicker3(("Specular" + std::to_string(index)).c_str(), &(l.m_Specular.x)))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("Constant" + std::to_string(index)).c_str(), &(l.m_Constant), 0.0f, 1.0f, "%.3f"))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("Linear" + std::to_string(index)).c_str(), &(l.m_Linear), 0.0f, 0.5f, "%.3f"))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("Quadratic" + std::to_string(index)).c_str(), &(l.m_Quadratic), 0.0f, 0.1f, "%.3f"))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("posX" + std::to_string(index)).c_str(), &(l.m_Position.x), -5.0f, 5.0f, "%.3f"))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("posY" + std::to_string(index)).c_str(), &(l.m_Position.y), -5.0f, 5.0f, "%.3f"))
+		s.addPointLight(l, index);
+
+	if (ImGui::SliderFloat(("posZ" + std::to_string(index)).c_str(), &(l.m_Position.z), -10.0f, 1.0f, "%.3f"))
+		s.addPointLight(l, index);
+
+	ImGui::End();
 }

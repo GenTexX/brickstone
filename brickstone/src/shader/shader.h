@@ -53,6 +53,10 @@ namespace bs {
 		std::string& getGeometrySource();
 		std::string& getFragmentSource();
 
+		void addDirectionalLight(directionalLight light, int index = -1);
+		void addPointLight(pointLight light, int index = -1);
+		void addSpotLight(spotLight light, int index = -1);
+
 	};
 
 }

@@ -143,8 +143,8 @@ namespace bs {
 		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate/* | aiProcess_FlipUVs*/);
 		
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
-			BS_CORE_ERROR("Failed to load: {}", path);
-			BS_CORE_ERROR("Assimp-Error: {}", importer.GetErrorString());
+			Log::error("Failed to load: {}", path);
+			Log::error("Assimp-Error: {}", importer.GetErrorString());
 			return;
 		}
 
