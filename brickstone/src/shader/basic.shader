@@ -6,13 +6,10 @@ layout(location = 1) in vec3 normal;
 layout(location = 2) in vec2 texCoord;
 
 out vec3 v_SurfaceNormal;
-out vec3 v_ToLightVector;
+
 out vec3 v_FragmentPosition;
 out vec3 v_Position;
 out vec2 v_TexCoord;
-
-
-uniform vec3 u_LightPosition;
 
 uniform mat4 u_Model;
 uniform mat4 u_View;
@@ -20,16 +17,18 @@ uniform mat4 u_Projection;
 
 void main() {
 
+	//worldPosition
 	vec4 worldPosition = u_Model * position;
 
+	//VertexPositrion
 	gl_Position = u_Projection * (u_View * (worldPosition));
-
 
 	//normal
 	v_SurfaceNormal = vec3(u_Model * vec4(normal, 0.0));
 
+
 	v_FragmentPosition = vec3(worldPosition);
-	v_Position = position.xyz;
+	v_Position = vec3(position);
 	v_TexCoord = texCoord;
 
 }
@@ -99,14 +98,19 @@ vec3 calcSpotLight(spotLight light, vec3 fragPos, vec3 viewDir);
 layout(location = 0) out vec4 color;
 
 in vec3 v_SurfaceNormal;
-in vec3 v_ToLightVector;
 in vec3 v_FragmentPosition;
 in vec3 v_Position;
 in vec2 v_TexCoord;
 
-uniform vec3 u_LightColor;
+
+
 uniform vec3 u_ViewPosition;
 uniform material u_Material;
+
+#define MAX_LIGHTS 4
+uniform dirLight u_DirLights[MAX_LIGHTS];
+uniform pointLight u_PointLights[MAX_LIGHTS];
+uniform spotLight u_SpotLights[MAX_LIGHTS];
 
 void main() {
 
@@ -118,11 +122,11 @@ void main() {
 	vec3 specular = vec3(1.0);
 
 	for (int i = 0; i < 4; i++) {
-	
+
 		//if (u_DirLights[i].diffuse.x == 0)
 		//	result += vec3(0.4, 0.0, 0.0);
 		result += calcDirLight(u_DirLights[i], viewDir);
-	
+
 	}
 
 	for (int i = 0; i < 4; i++) {
@@ -164,7 +168,7 @@ vec3 calcDirLight(dirLight light, vec3 viewDir) {
 		ambient = u_Material.ambient;
 	}
 	ambient *= light.ambient;
-	
+
 
 	//diffuse
 	vec3 diffuse = vec3(1.0);
@@ -177,7 +181,7 @@ vec3 calcDirLight(dirLight light, vec3 viewDir) {
 	else {
 		diffuse = diff * u_Material.diffuse;
 	}
-	diffuse *= light.diffuse*2;
+	diffuse *= light.diffuse * 2;
 	//specular
 	vec3 specular;
 
@@ -212,9 +216,6 @@ vec3 calcPointLight(pointLight light, vec3 fragPos, vec3 viewDir) {
 	ambient *= light.ambient;
 
 	//diffuse
-	vec3 unitNormal = normalize(v_SurfaceNormal);
-	vec3 unitLight = normalize(v_ToLightVector);
-	float diff = max(dot(unitNormal, unitLight), 0.0);
 	vec3 diffuse;
 
 	vec3 unitNormal = normalize(v_SurfaceNormal);
@@ -230,9 +231,6 @@ vec3 calcPointLight(pointLight light, vec3 fragPos, vec3 viewDir) {
 
 
 	//specular
-	vec3 viewDir = normalize(u_ViewPosition - v_FragmentPosition);
-	vec3 reflectionDir = reflect(-normalize(v_ToLightVector), v_SurfaceNormal);
-	float spec = pow(max(dot(viewDir, reflectionDir), 0.0), u_Material.shininess);
 	vec3 specular;
 
 	vec3 reflectionDir = reflect(-lightDir, v_SurfaceNormal);
@@ -320,5 +318,6 @@ vec3 calcSpotLight(spotLight light, vec3 fragPos, vec3 viewDir) {
 
 
 	return (ambient + diffuse + specular);
+
 
 }
