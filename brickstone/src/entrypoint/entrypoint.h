@@ -12,14 +12,14 @@ extern bs::Application* getApplication();
 
 int main(int argc, char* args[]) {
 
-	spdlog::set_level(spdlog::level::trace);
+	bs::Log::init();
 
 	/* init sdl */
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
-		bs::Log::error("SDL initialization failed. SDL Error: ", SDL_GetError());
+		BS_CORE_ERROR("SDL initialization failed. SDL Error: ", SDL_GetError());
 		return -1;
 	} else {
-		bs::Log::info("SDL initialization succeeded.");
+		BS_CORE_TRACE("SDL initialization succeeded.");
 	}
 
 	auto app = getApplication();
@@ -29,10 +29,10 @@ int main(int argc, char* args[]) {
 
 	/* init glew */
 	if (glewInit() != GLEW_OK) {
-		bs::Log::error("GLEW initialization failed.");
+		BS_CORE_ERROR("GLEW initialization failed.");
 		return -1;
 	} else {
-		bs::Log::info("GLEW initialization succeeded.");
+		BS_CORE_TRACE("GLEW initialization succeeded.");
 	}
 
 	/* gameloop */

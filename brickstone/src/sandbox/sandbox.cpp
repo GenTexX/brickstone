@@ -5,10 +5,9 @@ void onClick(void*);
 
 void Sandbox::init() {
 
-	this->w = new bs::Window(1600, 800);
-	this->w = new bs::Window(1920, 1080, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FULLSCREEN);
+	this->w = new bs::Window(1600, 900, "BrickStone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SDL_WINDOW_FOREIGN);
 
-	this->w->setKeyDownCallback(onClick);
+	this->w->setMouseButtonDownCallback(onClick);
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -115,13 +114,5 @@ void Sandbox::run() {
 }
 
 void onClick(void* window) {
-
-	bs::Window* w = (bs::Window*) window;
-	if (w->m_Keystate & (1ULL<<bs::KeyCode::BSK_W)) {
-
-
-
-	}
-
 
 }
